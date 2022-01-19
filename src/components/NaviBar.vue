@@ -6,7 +6,11 @@
       <div class="nav-btn" @click="goto('文章列表')">文章列表</div>
     </div>
     <div class="right">
-      <div class="nav-btn" @click="goto('登录')">登录</div>
+      <!-- <div class="nav-btn" @click="go
+      
+      
+      
+      to('登录')">登录</div> -->
     </div>
   </div>
 </template>
