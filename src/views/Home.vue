@@ -1,18 +1,33 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <div class="card">这是首页</div>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-
+import { Options, Vue } from "vue-class-component";
+import { mapActions } from "vuex";
 @Options({
-  components: {
-    HelloWorld,
+  components: {},
+  async created() {
+    //
+  },
+  methods: {
+    // ...mapActions("user", ["requestUserInfo"]),
   },
 })
 export default class Home extends Vue {}
 </script>
+<style lang="less" scoped>
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  .card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+    min-width: 80%;
+    // min-height: 600px;
+  }
+}
+</style>

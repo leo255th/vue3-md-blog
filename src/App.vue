@@ -1,10 +1,10 @@
 <template>
-  <container class="container">
+  <container class="app-container">
     <my-header class="my-header">
-       <navi-bar></navi-bar>
+      <navi-bar></navi-bar>
     </my-header>
     <my-main class="my-main">
-      <blog-main><router-view/></blog-main>
+      <blog-main><router-view /></blog-main>
     </my-main>
     <my-footer class="my-footer">
       <footer-bar></footer-bar>
@@ -21,34 +21,34 @@ import FooterBar from "@/components/FooterBar.vue";
     NaviBar,
     FooterBar,
   },
-  created() {
-    console.log("进入created");
-    // console.log(this.$route.query)
-    // window.open(href,'_self')
-  },
 })
 export default class App extends Vue {}
 </script>
-<style lang="less">
+<style lang="less" >
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
 }
-.container{
+.app-container {
   display: flex;
-  min-height:100vh;
+  min-height: 100vh;
+  min-width: 100vw;
   flex-direction: column;
   justify-content: space-between;
-  .my-header{
-
+  align-content: center;
+  // background-color: #cacaca;
+  .my-header {
+    min-width: 100%;
   }
-  .my-main{
+  .my-main {
     flex-grow: 1;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
-  .my-footer{
-
+  .my-footer {
+    min-width: 100%;
   }
 }
 </style>

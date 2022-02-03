@@ -6,14 +6,28 @@
       <div class="nav-btn" @click="goto('文章列表')">文章列表</div>
     </div>
     <div class="right">
-      <div class="nav-btn" @click="goto('登录')">登录</div>
+      <div v-if="!isLogin" class="nav-btn" @click="goto('登录')">登录</div>
+      <div v-if="isLogin" class="nav-drop">
+        {{ userName }} <span class="drop-symbol">^</span>
+        <div class="drop-items">
+          <div class="item">个人中心</div>
+          <div class="item" >登出</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script lang='ts'>
 import { Options, Vue } from "vue-class-component";
+import { mapState } from "vuex";
 @Options({
   props: {},
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState("user", ["isLogin", "userName"]),
+  },
   methods: {
     goto(place: string) {
       switch (place) {
@@ -24,7 +38,8 @@ import { Options, Vue } from "vue-class-component";
           console.log("文章列表");
           break;
         case "登录":
-          window.location.href='http://110.42.210.25:8200/?redirect=leoyiblog.cn'
+          window.location.href =
+            "http://110.42.210.25:8200/?redirect=leoyiblog.cn";
           break;
         default:
           break;
@@ -65,6 +80,53 @@ div.navibar {
       &:hover {
         cursor: pointer;
         background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+    .nav-drop {
+      line-height: 60px;
+      padding-left: 10px;
+      padding-right: 10px;
+      width: 150px;
+      text-align: center;
+      color: white;
+      font-size: 18px;
+      position: relative;
+      // text-shadow: 4px 4px 0 #1c1c1c;
+      &:hover {
+        .drop-symbol {
+          transform: rotate(360deg) scale(1.4, 1) translateY(4px);
+        }
+        .drop-items {
+          .item {
+            height: 60px;
+          }
+        }
+      }
+      .drop-symbol {
+        line-height: 60px;
+        display: inline-block;
+        transform: rotate(180deg) scale(1.4, 1) translateY(4px);
+        color: white;
+        // position: relative;
+        transition: all 0.2s;
+      }
+      .drop-items {
+        position: absolute;
+        display: flex;
+        width: 150px;
+        top: 60px;
+        left: 0px;
+        flex-direction: column;
+        background-color: #444444;
+        color: white;
+        .item {
+          height: 0px;
+          transition: all 0.2s;
+          &:hover {
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.1);
+          }
+        }
       }
     }
   }

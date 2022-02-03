@@ -84,6 +84,11 @@ import { Options, Vue } from "vue-class-component";
 
 @Options({
   components: {},
+    created() {
+    console.log("进入created");
+    console.log(this.$route)
+    // window.open(href,'_self')
+  },
 })
 export default class Demo extends Vue {}
 </script>
