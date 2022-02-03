@@ -6,11 +6,7 @@
       <div class="nav-btn" @click="goto('文章列表')">文章列表</div>
     </div>
     <div class="right">
-      <!-- <div class="nav-btn" @click="go
-      
-      
-      
-      to('登录')">登录</div> -->
+      <div class="nav-btn" @click="goto('登录')">登录</div>
     </div>
   </div>
 </template>
@@ -28,7 +24,7 @@ import { Options, Vue } from "vue-class-component";
           console.log("文章列表");
           break;
         case "登录":
-          console.log("登录");
+          window.location.href='http://110.42.210.25:8200/?redirect=leoyiblog.cn'
           break;
         default:
           break;
