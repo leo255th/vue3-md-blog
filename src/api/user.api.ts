@@ -44,3 +44,15 @@ export async function get_user_info(
 
 }
 
+export async function user_log_out():Promise<any>{
+    try {
+        const res = await axios({
+            method: 'post',
+            url: BASE_URL + '/log-out',
+        })
+        return res;
+    } catch (error) {
+        // console.error(error)
+    }
+}
+

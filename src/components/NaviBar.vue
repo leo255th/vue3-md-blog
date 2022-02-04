@@ -11,7 +11,7 @@
         {{ userName }} <span class="drop-symbol">^</span>
         <div class="drop-items">
           <div class="item">个人中心</div>
-          <div class="item" >登出</div>
+          <div class="item" @click="logout()">登出</div>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
 </template>
 <script lang='ts'>
 import { Options, Vue } from "vue-class-component";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 @Options({
   props: {},
   data() {
@@ -45,6 +45,7 @@ import { mapState } from "vuex";
           break;
       }
     },
+    ...mapActions("user", ["logout"]),
   },
 })
 export default class NaviBar extends Vue {}
