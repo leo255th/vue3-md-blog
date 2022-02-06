@@ -46,6 +46,7 @@ export default class App extends Vue {}
     flex-grow: 1;
     margin-top: 20px;
     margin-bottom: 20px;
+    min-width: 100%;
   }
   .my-footer {
     min-width: 100%;
@@ -53,17 +54,45 @@ export default class App extends Vue {}
 }
 // 淡入动画
 // 需要添加动画的元素需加上"fade-in"class
-.fade-in{
+.fade-in {
   animation: fade-in 0.25s ease-out 1;
 }
 @keyframes fade-in {
-  0%{
+  0% {
     transform: translatex(10px);
   }
-  100%{
+  100% {
     transform: translatex(0px);
-
   }
-  
+}
+
+// 修改element-plus默认样式
+
+// 修改选择框的边框颜色
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: #333333 !important;
+}
+.el-select .el-input__inner:focus {
+  border-color: #333333 !important;
+}
+// 选择选择框当前选中选项字体颜色
+.el-select-dropdown__item.selected {
+  color: #333333 !important;
+}
+// 修改文本输入框的边框颜色
+.el-input {
+  --el-input-focus-border: #333333 !important;
+}
+.el-textarea {
+  --el-input-focus-border: #333333 !important;
+}
+.el-button{
+  background-color: #444444 !important;
+  color:white !important;
+}
+.el-button:focus, .el-button:hover{
+  background-color: #333333 !important;
+
+
 }
 </style>
