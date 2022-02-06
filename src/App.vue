@@ -1,14 +1,14 @@
 <template>
   <container class="app-container">
-    <my-header class="my-header">
+    <div class="my-header">
       <navi-bar></navi-bar>
-    </my-header>
-    <my-main class="my-main">
-      <blog-main><router-view /></blog-main>
-    </my-main>
-    <my-footer class="my-footer">
+    </div>
+    <div class="my-main">
+      <router-view />
+    </div>
+    <div class="my-footer">
       <footer-bar></footer-bar>
-    </my-footer>
+    </div>
   </container>
 </template>
 
@@ -50,5 +50,20 @@ export default class App extends Vue {}
   .my-footer {
     min-width: 100%;
   }
+}
+// 淡入动画
+// 需要添加动画的元素需加上"fade-in"class
+.fade-in{
+  animation: fade-in 0.25s ease-out 1;
+}
+@keyframes fade-in {
+  0%{
+    transform: translatex(10px);
+  }
+  100%{
+    transform: translatex(0px);
+
+  }
+  
 }
 </style>

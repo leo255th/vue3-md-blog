@@ -10,7 +10,7 @@
       <div v-if="isLogin" class="nav-drop">
         {{ userName }} <span class="drop-symbol">^</span>
         <div class="drop-items">
-          <div class="item">个人中心</div>
+          <div class="item" @click="goto('新文章')">新文章 </div>
           <div class="item" @click="logout()">登出</div>
         </div>
       </div>
@@ -33,13 +33,21 @@ import { mapActions, mapState } from "vuex";
       switch (place) {
         case "首页":
           console.log("跳转到首页");
+          this.$router.push({path:'/'})
+
           break;
         case "文章列表":
           console.log("文章列表");
           break;
+        case "新文章":
+          console.log("新文章");
+          this.$router.push({path:'/article/create'})
+          break;
         case "登录":
           window.location.href =
-            "http://110.42.210.25:8200/?redirect=leoyiblog.cn";
+            "https://sso.leoyiblog.cn/?redirect=localhost:8080";
+
+            // "https://sso.leoyiblog.cn/?redirect=leoyiblog.cn";
           break;
         default:
           break;

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home fade-in">
     <div class="card">这是首页</div>
   </div>
 </template>

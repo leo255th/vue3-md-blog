@@ -10,11 +10,12 @@ router.beforeEach(async (to, from, next) => {
       await get_access_token({
         ticketToken: ticket_token as string
       })
-      next({path:'/'});
+      next({ path: '/' });
     }
     // 刷新用户信息
-    await vuex_store.dispatch('user/requestUserInfo');
-
+    if (store.get("access_token")) {
+      await vuex_store.dispatch('user/requestUserInfo');
+    }
   }
   next();
 

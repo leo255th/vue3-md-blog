@@ -3,7 +3,9 @@ import { NET_CONFIG } from './api.config';
 import store from 'store2'
 import vuex_store from '../store'
 
-const BASE_URL = NET_CONFIG.BACKEND_URL + ':' + NET_CONFIG.BACKEND_PORT + '/user';
+// const BASE_URL = NET_CONFIG.BACKEND_URL + ':' + NET_CONFIG.BACKEND_PORT + '/user';
+const BASE_URL = NET_CONFIG.BACKEND_URL + 'user';
+
 
 export async function get_access_token(
     args: {
