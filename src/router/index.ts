@@ -9,12 +9,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/article/create/',
     name: 'article_create',
-    component: () => import('@/views/Article.Create.vue')
+    component: () => import('@/views/article/Create.vue')
   },
   {
     path: '/article/edit/:articleId?',
     name: 'article_edit',
-    component: () => import('@/views/Article.Edit.vue')
+    component: () => import('@/views/article/Edit.vue')
   }
 ]
 

@@ -66,10 +66,16 @@
             content="存储为草稿"
             placement="top-start"
           >
-            <el-button style="min-width: 7vw; margin: 5px 0px 5px 5px">暂存</el-button>
+            <el-button style="min-width: 7vw; margin: 5px 0px 5px 5px"
+              >暂存</el-button
+            >
           </el-tooltip>
 
-          <el-button style="min-width: 7vw; margin: 5px 0px 5px 5px">提交</el-button>
+          <el-button
+            style="min-width: 7vw; margin: 5px 0px 5px 5px"
+            @click="submit()"
+            >提交</el-button
+          >
         </div>
       </div>
     </div>
@@ -80,8 +86,9 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { get_field_list } from "../api/article.api";
+import { get_field_list, create_article } from "../../api/article.api";
 import { ref } from "vue";
+import { mapState } from "vuex";
 @Options({
   components: {},
   data() {
@@ -89,10 +96,14 @@ import { ref } from "vue";
       text: "",
       field: "",
       title: "",
+      description:'',
       field_name_list: [],
       tag_name_list: [],
       tags: ref<string[]>([]),
     };
+  },
+  computed: {
+    ...mapState("user", ["userId"]),
   },
   async created() {
     //
@@ -106,6 +117,19 @@ import { ref } from "vue";
     },
     selectTags(val: string[]) {
       console.log(val);
+    },
+    // 提交文章
+    async submit() {
+      console.log(this.field);
+      const res = await create_article({
+        userId: this.userId,
+        title: this.title,
+        description: this.description,
+        fieldId: this.field,
+        tags: this.tags,
+        content: this.text,
+      });
+      console.log(res);
     },
     // ...mapActions("user", ["requestUserInfo"]),
   },
@@ -128,7 +152,7 @@ export default class ArticleAdd extends Vue {}
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+
     .input-left-container {
       flex-grow: 1;
       .input-inner-container {

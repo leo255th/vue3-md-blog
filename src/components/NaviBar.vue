@@ -128,8 +128,9 @@ div.navibar {
         flex-direction: column;
         background-color: #444444;
         color: white;
-        .item {
+        .item { 
           height: 0px;
+          overflow: hidden;
           transition: all 0.2s;
           &:hover {
             cursor: pointer;

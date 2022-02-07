@@ -25,3 +25,30 @@ export async function get_field_list(
   }
   return [];
 }
+
+export async function create_article(
+  args: {
+    userId: number,
+    title: string,
+    description: string,
+    content:string,
+    fieldId: number,
+    tags: string[]
+  }
+): Promise<any> {
+  try {
+      const res = await axios({
+          method: 'post',
+          url: BASE_URL + '/create-article',
+          data: {
+              ...args
+          },
+      })
+      if (res && res.data) {
+        return res.data
+      }
+  } catch (error) {
+      // console.error(error)
+  }
+
+}
