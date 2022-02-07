@@ -10,7 +10,8 @@
       <div v-if="isLogin" class="nav-drop">
         {{ userName }} <span class="drop-symbol">^</span>
         <div class="drop-items">
-          <div class="item" @click="goto('新文章')">新文章 </div>
+          <div class="item" @click="goto('新文章')">新文章</div>
+          <div class="item" @click="goto('文章管理')">文章管理</div>
           <div class="item" @click="logout()">登出</div>
         </div>
       </div>
@@ -33,7 +34,7 @@ import { mapActions, mapState } from "vuex";
       switch (place) {
         case "首页":
           console.log("跳转到首页");
-          this.$router.push({path:'/'})
+          this.$router.push({ path: "/" });
 
           break;
         case "文章列表":
@@ -41,13 +42,16 @@ import { mapActions, mapState } from "vuex";
           break;
         case "新文章":
           console.log("新文章");
-          this.$router.push({path:'/article/create'})
+          this.$router.push({ path: "/article/create" });
+          break;
+        case "文章管理":
+          this.$router.push({ path: "/article/manage" });
           break;
         case "登录":
           window.location.href =
             "https://sso.leoyiblog.cn/?redirect=localhost:8080";
 
-            // "https://sso.leoyiblog.cn/?redirect=leoyiblog.cn";
+          // "https://sso.leoyiblog.cn/?redirect=leoyiblog.cn";
           break;
         default:
           break;
@@ -128,7 +132,7 @@ div.navibar {
         flex-direction: column;
         background-color: #444444;
         color: white;
-        .item { 
+        .item {
           height: 0px;
           overflow: hidden;
           transition: all 0.2s;
