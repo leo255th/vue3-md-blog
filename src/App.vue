@@ -44,9 +44,13 @@ export default class App extends Vue {}
   }
   .my-main {
     flex-grow: 1;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     min-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #f4f5f7;
   }
   .my-footer {
     min-width: 100%;
@@ -64,6 +68,10 @@ export default class App extends Vue {}
   100% {
     transform: translatex(0px);
   }
+}
+// 方块阴影
+.shadow {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 
 // 修改element-plus默认样式
@@ -86,13 +94,12 @@ export default class App extends Vue {}
 .el-textarea {
   --el-input-focus-border: #333333 !important;
 }
-.el-button{
+.el-button {
   background-color: #444444 !important;
-  color:white !important;
+  color: white !important;
 }
-.el-button:focus, .el-button:hover{
+.el-button:focus,
+.el-button:hover {
   background-color: #333333 !important;
-
-
 }
 </style>

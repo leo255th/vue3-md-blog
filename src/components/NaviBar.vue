@@ -88,7 +88,9 @@ div.navibar {
       width: 150px;
       text-align: center;
       color: white;
-      font-size: 18px;
+      // font-size: 18px;
+      font-size: 1.2em;
+      // font-weight: bold;
       // text-shadow: 4px 4px 0 #1c1c1c;
       &:hover {
         cursor: pointer;
@@ -102,7 +104,9 @@ div.navibar {
       width: 150px;
       text-align: center;
       color: white;
-      font-size: 18px;
+      // font-size: 18px;
+      font-size: 1.2em;
+      // font-weight: bold;
       position: relative;
       // text-shadow: 4px 4px 0 #1c1c1c;
       &:hover {
@@ -200,7 +204,8 @@ div.navibar {
   font-family: lobster two;
   color: #ffa801;
   text-shadow: 0 8px 0 #1c1c1c;
-  font-size: 40px;
+  // font-size: 40px;
+  font-size: 2.8em;
   cursor: default;
 }
 </style>
