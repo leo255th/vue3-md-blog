@@ -1,5 +1,5 @@
 <template>
-  <div class="fade-in">新文章</div>
+  <div class="slide-in">新文章</div>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";

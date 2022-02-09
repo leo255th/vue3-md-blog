@@ -1,5 +1,5 @@
 <template>
-  <div class="fade-in container">
+  <div class="slide-in container">
     <div class="input-container">
       <div class="input-left-container">
         <div class="input-inner-container">

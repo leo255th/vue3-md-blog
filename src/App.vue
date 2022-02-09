@@ -56,12 +56,12 @@ export default class App extends Vue {}
     min-width: 100%;
   }
 }
-// 淡入动画
-// 需要添加动画的元素需加上"fade-in"class
-.fade-in {
-  animation: fade-in 0.25s ease-out 1;
+// 滑入动画
+// 需要添加动画的元素需加上"slide-in"class
+.slide-in {
+  animation: slide-in 0.25s ease-out 1;
 }
-@keyframes fade-in {
+@keyframes slide-in {
   0% {
     transform: translatex(10px);
   }
@@ -101,5 +101,20 @@ export default class App extends Vue {}
 .el-button:focus,
 .el-button:hover {
   background-color: #333333 !important;
+  border-color: #ffa801 !important;
 }
+// 修改多选框颜色
+.el-checkbox__inner{
+  border-color: #3337 !important;
+}
+.el-checkbox__inner:hover{
+  border-color: #333 !important;
+}
+.el-checkbox__input.is-checked+.el-checkbox__label{
+  color:#333 !important;
+}
+.el-checkbox__input.is-checked .el-checkbox__inner{
+  background-color: #333 !important;
+}
+
 </style>
