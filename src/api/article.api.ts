@@ -58,7 +58,7 @@ export async function edit_field(
     field: string,
     isVisiable: boolean,
     order: number,
-    isDeleted:boolean
+    isDeleted?:boolean
   }
 ): Promise<number> {
   try {

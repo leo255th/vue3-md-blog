@@ -103,18 +103,33 @@ export default class App extends Vue {}
   background-color: #333333 !important;
   border-color: #ffa801 !important;
 }
+.el-button.el-button--primary.el-button--mini {
+  background-color: white !important;
+  color: #333 !important;
+  border: none;
+  &:hover {
+    color: #ffa801 !important;
+  }
+}
+.el-button.el-button--text.el-button--mini {
+  background-color: white !important;
+  color: #333 !important;
+  border: none;
+  &:hover {
+    color: #ffa801 !important;
+  }
+}
 // 修改多选框颜色
-.el-checkbox__inner{
+.el-checkbox__inner {
   border-color: #3337 !important;
 }
-.el-checkbox__inner:hover{
+.el-checkbox__inner:hover {
   border-color: #333 !important;
 }
-.el-checkbox__input.is-checked+.el-checkbox__label{
-  color:#333 !important;
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #333 !important;
 }
-.el-checkbox__input.is-checked .el-checkbox__inner{
+.el-checkbox__input.is-checked .el-checkbox__inner {
   background-color: #333 !important;
 }
-
 </style>
