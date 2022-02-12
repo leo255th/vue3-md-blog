@@ -7,6 +7,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Home.vue')
   },
   {
+    path: '/article/:articleId/',
+    name: 'article_detail',
+    component: () => import('@/views/article/Detail.vue')
+  },
+  {
     path: '/article/create/',
     name: 'article_create',
     component: () => import('@/views/article/Create.vue')
@@ -17,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/article/Manage.vue')
   },
   {
-    path: '/article/edit/:articleId?',
+    path: '/article/edit/:articleId',
     name: 'article_edit',
     component: () => import('@/views/article/Edit.vue')
   }

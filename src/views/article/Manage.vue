@@ -64,9 +64,50 @@
     </div>
     <div class="article-list">
       <div class="title">文章列表</div>
-      <div class="article">文章1</div>
-      <div class="article">文章2</div>
-      <div class="article">文章3</div>
+      <div
+        class="article slide-in"
+        v-for="article in article_list"
+        :key="article.id"
+      >
+        <div class="content-area">
+          <div class="article_title">{{ article.title }}</div>
+          <div class="article_time">
+            {{ "时间：" + new Date(article.time).toLocaleString() }}
+          </div>
+          <div class="article_description">
+            {{ "摘要：" + article.description }}
+          </div>
+          <div class="article_tags">
+            <div class="tag" v-for="tag in article.tags" :key="tag">
+              {{ tag }}
+            </div>
+          </div>
+        </div>
+        <div class="operation-area">
+          <div class="input-row">
+            <el-checkbox
+              class="checkbox"
+              v-model="article.isVisiable"
+              label="显示在主页"
+              @change="update_article_visiable(article)"
+            ></el-checkbox>
+          </div>
+          <div class="btn-row">
+            <el-button type="text">查看</el-button>
+            <el-button type="text">编辑</el-button>
+            <el-button type="text">删除</el-button>
+          </div>
+        </div>
+      </div>
+      <el-pagination
+        background
+        style="margin-bottom: 10px"
+        layout="prev, pager, next"
+        :total="article_total"
+        v-model:page-size="article_page_size"
+        v-model:current-page="article_page"
+      >
+      </el-pagination>
     </div>
   </div>
   <el-dialog
@@ -148,8 +189,8 @@
         <el-popconfirm
           title="确定要删除?分区下所有文章都会被删除！"
           @confirm="commit_delete_field()"
-          confirmButtonText='是'
-          cancelButtonText='否'
+          confirmButtonText="是"
+          cancelButtonText="否"
         >
           <template #reference>
             <el-button>删除</el-button>
@@ -162,24 +203,32 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { get_field_list, create_field, edit_field } from "@/api/article.api";
-import { mapActions } from "vuex";
+import {
+  get_all_field_list,
+  create_field,
+  edit_field,
+  get_all_article_list,
+  edit_article,
+} from "@/api/article.api";
+import { mapActions, mapState } from "vuex";
 import { ElMessage } from "element-plus";
 @Options({
   components: {},
   async created() {
     // 获取分区列表
-    this.field_name_list = await get_field_list();
-    // 设置默认选中分区为第一个
-    this.active_index = 0;
-    this.actived_field = this.field_name_list[this.active_index];
+    this.field_name_list = await get_all_field_list();
+    // 设置默认选中分区为第一
+    if (this.field_name_list.length > 0) {
+      await this.selectField(0);
+    }
+    document.title = "文章管理 | Leoyi的个人博客";
   },
   data() {
     return {
       field_name_list: [],
       actived_field: {},
       edit_field: {},
-      active_index: 0,
+      active_index: null,
       create_dialog_visible: false,
       edit_dialog_visible: false,
       new_field: {
@@ -187,7 +236,28 @@ import { ElMessage } from "element-plus";
         order: 0,
         isVisiable: false,
       },
+      article_list: [],
+      // 文章列表分页设置
+      article_total: 0, // 文章总量
+      article_page: 1, // 当前页面
+      article_page_size: 5, // 页面大小
     };
+  },
+  computed: {
+    ...mapState("user", ["userId"]),
+  },
+  watch: {
+    async article_page(newPage, curPage) {
+      // 请求文章列表
+      const res = await get_all_article_list({
+        userId: this.userId,
+        fieldId: this.actived_field.id,
+        offset: (this.article_page - 1) * this.article_page_size,
+        num: this.article_page_size,
+      });
+      this.article_list = res.list;
+      this.article_total = res.total;
+    },
   },
   methods: {
     // ...mapActions("user", ["requestUserInfo"]),
@@ -206,7 +276,7 @@ import { ElMessage } from "element-plus";
       }
       const id = (await create_field(this.new_field)) + "";
       // 选中新添加的分区
-      this.field_name_list = await get_field_list();
+      this.field_name_list = await get_all_field_list();
       let field_index = this.field_name_list.findIndex((field: any) => {
         return field.id == id;
       });
@@ -232,7 +302,7 @@ import { ElMessage } from "element-plus";
         ...this.edit_field,
         isDeleted: true,
       });
-      this.field_name_list = await get_field_list();
+      this.field_name_list = await get_all_field_list();
       if (this.actived_field.id == this.edit_field.id) {
         // 如果删除的是当前选中的分区,则选中第一个分区
         this.active_index = 0;
@@ -248,6 +318,28 @@ import { ElMessage } from "element-plus";
       }
       this.active_index = index;
       this.actived_field = this.field_name_list[index];
+      this.article_page = 1;
+      this.article_page_size = 5;
+      // 请求文章列表
+      const res = await get_all_article_list({
+        userId: this.userId,
+        fieldId: this.actived_field.id,
+        offset: 0,
+        num: this.article_page_size,
+      });
+      this.article_list = res.list;
+      this.article_total = res.total;
+    },
+    // 更新文章可见状态
+    async update_article_visiable(article: any) {
+      console.log("触发change");
+      const res = await edit_article({
+        id: article.id,
+        isVisiable: article.isVisiable,
+      });
+      if (res) {
+        ElMessage.success("修改已保存");
+      }
     },
   },
 })
@@ -263,7 +355,7 @@ export default class Home extends Vue {}
   min-height: 80vh;
   border-radius: 4px;
   .field-list {
-    flex-grow: 1;
+    width: 11vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -329,7 +421,7 @@ export default class Home extends Vue {}
       .count {
         display: inline-block;
         position: absolute;
-        left: 11em;
+        left: 66%;
         top: 0em;
         text-align: center;
         min-width: 40px;
@@ -339,7 +431,7 @@ export default class Home extends Vue {}
       .edit-btn {
         display: none;
         position: absolute;
-        left: 11em;
+        left: 66%;
         top: 0em;
         text-align: center;
         min-width: 40px;
@@ -360,10 +452,12 @@ export default class Home extends Vue {}
     }
   }
   .article-list {
-    flex-grow: 10;
+    flex-grow: 1;
+    // width: 69vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+    // display: none;
     .title {
       // margin-top: 1em;
       color: white;
@@ -374,6 +468,67 @@ export default class Home extends Vue {}
       width: 100%;
       position: relative;
       text-align: center;
+      margin-bottom: 10px;
+      overflow: hidden;
+      // display: none;
+      border: none;
+    }
+    .article {
+      margin-bottom: 10px;
+      border-top: 1px solid #99999950;
+      &:nth-child(2) {
+        border: none;
+      }
+      border-radius: 0.4em;
+      padding: 0.7em;
+      width: 90%;
+      // max-height:20%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .content-area {
+        flex-grow: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        .article_title {
+          font-size: 1.2em;
+          // font-weight: bold;
+          margin-bottom: 5px;
+        }
+        .article_description {
+          font-size: 0.8em;
+          color: #707070;
+          margin-bottom: 5px;
+          max-width: 80%;
+        }
+        .article_time {
+          font-size: 0.8em;
+          color: #707070;
+          margin-bottom: 5px;
+        }
+        .article_tags {
+          .tag {
+            color: #707070;
+            border: 1px solid #70707090;
+            border-radius: 2px;
+            display: inline-block;
+            // margin-left: 5px;
+            margin-right: 5px;
+            font-size: 0.8em;
+            margin-top: 5px;
+            padding-left: 0.2em;
+            padding-right: 0.2em;
+            padding-top: 0.1em;
+            padding-bottom: 0.1em;
+          }
+        }
+      }
+      .operation-area {
+        flex-grow: 1;
+        min-width: 10vw;
+      }
     }
   }
   .block-line {

@@ -14,6 +14,9 @@ export const user = {
         userName: state.userName,
         userId: state.userId
       }
+    },
+    isLogin(state: any){
+      return state.isLogin
     }
   },
   mutations: {

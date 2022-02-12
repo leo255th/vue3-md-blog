@@ -27,6 +27,28 @@ export async function get_field_list(
   }
   return [];
 }
+export async function get_all_field_list(
+): Promise<{
+  id: number,
+  field: string,
+  order: number,
+  isVisiable: boolean
+}[]> {
+  try {
+    const res = await axios({
+      method: 'get',
+      url: BASE_URL + '/get-all-field-list',
+    });
+
+    if (res && res.data) {
+      return res.data
+    }
+  }
+  catch (error) {
+    // console.error(error)
+  }
+  return [];
+}
 export async function create_field(
   args: {
     field: string,
@@ -54,11 +76,11 @@ export async function create_field(
 }
 export async function edit_field(
   args: {
-    id:number,
+    id: number,
     field: string,
     isVisiable: boolean,
     order: number,
-    isDeleted?:boolean
+    isDeleted?: boolean
   }
 ): Promise<number> {
   try {
@@ -105,4 +127,172 @@ export async function create_article(
     // console.error(error)
   }
 
+}
+export async function edit_article(
+  args: {
+    id: number,
+    title?: string,
+    description?: string,
+    content?: string,
+    fieldId?: number,
+    isVisiable?: boolean,
+    tags?: string[]
+  }
+): Promise<any> {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: BASE_URL + '/edit-article',
+      data: {
+        ...args
+      },
+    })
+    if (res && res.data) {
+      return res.data
+    }
+  } catch (error) {
+    // console.error(error)
+  }
+
+}
+
+export async function get_article_list(
+  args: {
+    userId: number,
+    fieldId?: number,
+    tags?: string[],
+    offset?: number,
+    num?: number
+  }
+): Promise<{
+  id: number,
+  userId: number,
+  title: string,
+  description: string,
+  field: string,
+  tags: string[],
+  isVisiable: boolean,
+  time: Date
+}[]> {
+  try {
+    const res = await axios({
+      method: 'get',
+      url: BASE_URL + '/get-article-list',
+      params: {
+        ...args
+      }
+    });
+
+    if (res && res.data) {
+      return res.data
+    }
+  }
+  catch (error) {
+    // console.error(error)
+  }
+  return [];
+}
+
+export async function get_all_article_list(
+  args: {
+    userId: number,
+    fieldId?: number,
+    tags?: string[],
+    offset?: number,
+    num?: number
+  }
+): Promise<{
+  list: {
+    id: number,
+    userId: number,
+    title: string,
+    description: string,
+    field: string,
+    tags: string[],
+    isVisiable: boolean,
+    time: Date
+  }[],
+  total: number
+}> {
+  try {
+    const res = await axios({
+      method: 'get',
+      url: BASE_URL + '/get-all-article-list',
+      params: {
+        ...args
+      }
+    });
+
+    if (res && res.data) {
+      return res.data
+    }
+  }
+  catch (error) {
+    // console.error(error)
+  }
+  return {
+    list: [],
+    total: 0
+  };
+}
+
+export async function get_article_visiable(
+  args: {
+    articleId: number
+  }
+): Promise<{
+  id: number,
+  userId: number,
+  title: string,
+  description: string,
+  field: string,
+  tags: string[],
+  isVisiable: boolean,
+  time: Date
+} | null> {
+  try {
+    const res = await axios({
+      method: 'get',
+      url: BASE_URL + '/get-visiable-article',
+      params: {
+        ...args
+      }
+    })
+    if (res && res.data) {
+      return res.data;
+    }
+  } catch (error) {
+    // console.error(error)
+  }
+  return null;
+}
+export async function get_article_any(
+  args: {
+    articleId: number
+  }
+): Promise<{
+  id: number,
+  userId: number,
+  title: string,
+  description: string,
+  field: string,
+  tags: string[],
+  isVisiable: boolean,
+  time: Date
+} | null> {
+  try {
+    const res = await axios({
+      method: 'get',
+      url: BASE_URL + '/get-any-article',
+      params: {
+        ...args
+      }
+    })
+    if (res && res.data) {
+      return res.data;
+    }
+  } catch (error) {
+    // console.error(error)
+  }
+  return null;
 }

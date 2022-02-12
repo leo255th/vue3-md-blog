@@ -50,7 +50,7 @@
       </div>
       <div class="input-right-container">
         <div class="input-inner-container">
-          <span style="min-width: 3vw; margin-top: 6px">简介：</span>
+          <span style="min-width: 3vw; margin-top: 6px">摘要：</span>
           <el-input
             v-model="description"
             :rows="4"
@@ -86,7 +86,7 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { get_field_list, create_article } from "../../api/article.api";
+import { get_all_field_list, create_article } from "../../api/article.api";
 import { ref } from "vue";
 import { mapState } from "vuex";
 @Options({
@@ -107,7 +107,7 @@ import { mapState } from "vuex";
   },
   async created() {
     //
-    this.field_name_list = await get_field_list();
+    this.field_name_list = await get_all_field_list();
   },
   methods: {
     // 保存文章

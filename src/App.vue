@@ -1,5 +1,5 @@
 <template>
-  <container class="app-container">
+  <div class="app-container">
     <div class="my-header">
       <navi-bar></navi-bar>
     </div>
@@ -9,7 +9,7 @@
     <div class="my-footer">
       <footer-bar></footer-bar>
     </div>
-  </container>
+  </div>
 </template>
 
 <script lang='ts'>
@@ -30,11 +30,12 @@ export default class App extends Vue {}
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
+  // width: 100vw;
 }
 .app-container {
   display: flex;
   min-height: 100vh;
-  min-width: 100vw;
+  width: 100%;
   flex-direction: column;
   justify-content: space-between;
   align-content: center;
@@ -51,6 +52,7 @@ export default class App extends Vue {}
     flex-direction: row;
     justify-content: center;
     background-color: #f4f5f7;
+    // display: none;
   }
   .my-footer {
     min-width: 100%;
@@ -119,6 +121,14 @@ export default class App extends Vue {}
     color: #ffa801 !important;
   }
 }
+.el-button.el-button--text{
+  background-color: white !important;
+ color: #333 !important;
+  border: none;
+  &:hover {
+    color: #ffa801 !important;
+  }
+}
 // 修改多选框颜色
 .el-checkbox__inner {
   border-color: #3337 !important;
@@ -132,4 +142,16 @@ export default class App extends Vue {}
 .el-checkbox__input.is-checked .el-checkbox__inner {
   background-color: #333 !important;
 }
+// 分页器颜色
+.el-pagination.is-background .el-pager li.number.active{
+  background-color: #333333 !important;
+}
+.el-pagination.is-background .el-pager li.number:hover {
+    color:#333333 !important;
+}
+.el-pagination.is-background .el-pager li.number.active:hover {
+    color:white !important;
+}
+
+
 </style>

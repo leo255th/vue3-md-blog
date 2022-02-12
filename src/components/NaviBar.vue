@@ -1,8 +1,7 @@
 <template>
   <div class="navibar">
     <div class="left">
-      <div class="mylogo">Leoyi-blog</div>
-      <div class="nav-btn" @click="goto('首页')">首页</div>
+      <div class="mylogo"  @click="goto('首页')">Leoyi-blog</div>
       <div class="nav-btn" @click="goto('文章列表')">文章列表</div>
     </div>
     <div class="right">
@@ -104,6 +103,7 @@ div.navibar {
       width: 150px;
       text-align: center;
       color: white;
+      z-index: 10;
       // font-size: 18px;
       font-size: 1.2em;
       // font-weight: bold;
@@ -207,5 +207,8 @@ div.navibar {
   // font-size: 40px;
   font-size: 2.8em;
   cursor: default;
+  &:hover{
+    cursor: pointer;
+  }
 }
 </style>

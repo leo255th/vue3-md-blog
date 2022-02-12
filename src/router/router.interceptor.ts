@@ -12,10 +12,10 @@ router.beforeEach(async (to, from, next) => {
       })
       next({ path: '/' });
     }
-    // 刷新用户信息
-    if (store.get("access_token")) {
-      await vuex_store.dispatch('user/requestUserInfo');
-    }
+  }
+  // 如果本地有access_token,刷新用户信息
+  if (store.get("access_token")) {
+    await vuex_store.dispatch('user/requestUserInfo');
   }
   next();
 
