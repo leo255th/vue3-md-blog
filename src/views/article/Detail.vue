@@ -7,7 +7,7 @@
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       p-id="2032"
-      @click="useToc = useToc ? false : true"
+      @click="setToc"
     >
       <path
         d="M149.333333 704c35.413333 0 64 29.013333 64 64s-29.013333 64-64 64S85.333333 802.986667 85.333333 768s28.586667-64 64-64zM896 725.333333a42.666667 42.666667 0 0 1 0 85.333334H341.333333a42.666667 42.666667 0 0 1 0-85.333334zM149.333333 448c35.413333 0 64 28.586667 64 64s-28.586667 64-64 64S85.333333 547.413333 85.333333 512s28.586667-64 64-64zM896 469.333333a42.666667 42.666667 0 0 1 0 85.333334H341.333333a42.666667 42.666667 0 0 1 0-85.333334zM149.333333 192C184.746667 192 213.333333 220.586667 213.333333 256s-28.586667 64-64 64S85.333333 291.413333 85.333333 256s28.586667-64 64-64zM896 213.333333a42.666667 42.666667 0 0 1 0 85.333334H341.333333a42.666667 42.666667 0 1 1 0-85.333334z"
@@ -107,6 +107,17 @@ import { mapState } from "vuex";
         });
       }
     },
+    setToc(){
+      if(this.useToc==false){
+        // 开启toc
+        let _titles=[...this.titles];
+        this.titles=[];
+        setTimeout(()=>{
+          this.titles=[..._titles]
+        },200)
+      }
+      this.useToc=this.useToc?false:true;
+    }
   },
 })
 export default class ArticleDetail extends Vue {}
@@ -143,6 +154,7 @@ export default class ArticleDetail extends Vue {}
     padding-left: 0.6vw;
     transition: all 0.25s;
     width: 20vw;
+    user-select:none;
     .title {
       width: 99%;
       // text-align: center;
