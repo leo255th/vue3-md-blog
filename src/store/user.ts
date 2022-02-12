@@ -50,6 +50,7 @@ export const user = {
           userId: '',
         });
         commit('updateLoginState', false);
+        store.remove('access_token')
         return true;
       } else {
         return false;
