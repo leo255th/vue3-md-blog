@@ -246,6 +246,7 @@ export async function get_article_visiable(
   title: string,
   description: string,
   field: string,
+  fieldId: number,
   tags: string[],
   isVisiable: boolean,
   time: Date
@@ -276,6 +277,7 @@ export async function get_article_any(
   title: string,
   description: string,
   field: string,
+  fieldId: number,
   tags: string[],
   isVisiable: boolean,
   time: Date

@@ -1,6 +1,38 @@
 <template>
-  <div class="out-container" v-if="article">
-    <div class="slide-in container shadow">
+  <div class="out-container slide-in" v-if="article">
+    <div class="left-side-container">
+      <div class="meta-container shadow">
+        <div class="meta-title">文章信息</div>
+        <div class="info-row">
+          <div class="label">标题：</div>
+          <div class="title">{{ article.title }}</div>
+        </div>
+        <div class="info-row">
+          <div class="label">时间：</div>
+          <div class="time">{{ new Date(article.time).toLocaleString() }}</div>
+        </div>
+        <div class="info-row">
+          <div class="label">摘要：</div>
+          <div class="description">
+            {{ article.description }}
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="label">分区：</div>
+          <div class="field">{{ article.field }}</div>
+        </div>
+        <div class="info-row">
+          <div class="label">标签：</div>
+          <div class="tags">
+            <div class="tag" v-for="(tag, index) in article.tags" :key="index">
+              {{ tag }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="md-container shadow">
       <svg
         t="1644671796536"
         :class="`backtop-icon ${showBackTopIcon ? 'show' : 'hide'}`"
@@ -50,7 +82,7 @@
         <div
           class="anchor"
           v-for="(anchor, index) in titles"
-          :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
+          :style="{ padding: `8px 0 8px ${anchor.indent * 13}px` }"
           @click="handleAnchorClick(anchor)"
           :key="index"
         >
@@ -62,17 +94,36 @@
         <v-md-preview :text="article.content" ref="preview" />
       </div>
     </div>
+    <div class="right-side-container">
+      <div class="article-list-container shadow">
+        <div class="field-title">近期文章</div>
+        <div
+          class="article-title"
+          v-for="(item, index) in article_list"
+          :key="index"
+          @click="openPage(item.id)"
+        >
+          {{ item.title }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { get_article_visiable, get_article_any } from "@/api/article.api";
+import {
+  get_article_visiable,
+  get_article_any,
+  get_article_list,
+  get_all_article_list,
+} from "@/api/article.api";
 import { mapState } from "vuex";
 @Options({
   components: {},
   data() {
     return {
       article: null,
+      article_list: [],
       articleId: "",
       titles: [],
       useToc: true,
@@ -89,6 +140,13 @@ import { mapState } from "vuex";
         return get_article_visiable;
       }
     },
+    get_list() {
+      if (this.isLogin) {
+        return get_all_article_list;
+      } else {
+        return get_article_list;
+      }
+    },
   },
   async created() {
     //
@@ -98,12 +156,12 @@ import { mapState } from "vuex";
       this.article = await this.get_article({
         articleId: this.articleId,
       });
-      this.article.content =
-        this.article.content +
-        this.article.content +
-        this.article.content +
-        this.article.content +
-        this.article.content;
+      this.article_list = (
+        await this.get_list({
+          userId: this.article.userId,
+          fieldId: this.article.fieldId,
+        })
+      ).list;
     }
     setTimeout(() => {
       const anchors =
@@ -169,9 +227,15 @@ import { mapState } from "vuex";
       }
       this.useToc = this.useToc ? false : true;
     },
+    // 跳转到顶部
     backtop() {
       console.log("backtop");
       window.scrollTo(0, 0);
+    },
+    // 打开页面
+    openPage(articleId: number) {
+      // console.log(this.$router)
+      window.open(window.location.origin + `/article/${articleId}`, "_blank");
     },
   },
 })
@@ -179,14 +243,114 @@ export default class ArticleDetail extends Vue {}
 </script>
 
 <style lang="less" scoped>
-.out-container{
+.out-container {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  // align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 2%;
 }
-.container {
-  width: 85%;
+.left-side-container {
+  // 左边侧边栏容器
+  margin-left: 2%;
+  width: 15%;
+
+  .meta-container {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    .meta-title {
+      width: 85%;
+      margin-left: 4%;
+      // text-align: center;
+      font-size: 1.4em;
+      font-weight: bold;
+      border-bottom: 1px solid #99999960;
+      line-height: 2em;
+      height: 2em;
+    }
+    .info-row {
+      font-size: 0.9em;
+      display: flex;
+      flex-direction: row;
+      width: 85%;
+      margin-left: 4%;
+      line-height: 2em;
+      min-height: 2em;
+      .label {
+        min-width: 25%;
+      }
+      .field {
+        color: #707070;
+        font-style: italic;
+        &:hover {
+          color: #ffa801;
+          cursor: pointer;
+        }
+      }
+      .tags {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        .tag {
+          color: #707070;
+          margin-right: 0.5em;
+          font-style: italic;
+          &:hover {
+            color: #ffa801;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+.right-side-container {
+  // 右边侧边栏容器
+  width: 15%;
+  margin-right: 2%;
+  .article-list-container {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    .field-title {
+      width: 85%;
+      margin-left: 4%;
+      // text-align: center;
+      font-size: 1.4em;
+      font-weight: bold;
+      border-bottom: 1px solid #99999960;
+      line-height: 2em;
+      height: 2em;
+      margin-bottom: 0.3em;
+    }
+    .article-title {
+      width: 85%;
+      margin-left: 4%;
+      font-size: 1em;
+      line-height: 1.5em;
+      min-height: 1.5em;
+      margin-bottom: 0.5em;
+      color: #707070;
+      font-style: italic;
+      &:hover {
+        cursor: pointer;
+        color: #ffa801;
+      }
+      &.now-open {
+        color: #ffa801;
+        font-weight: bold;
+      }
+    }
+  }
+}
+.md-container {
+  width: 60%;
   // height: 80vh;
   display: flex;
   flex-direction: row;
@@ -195,8 +359,8 @@ export default class ArticleDetail extends Vue {}
     width: 1.3em;
     fill: #707070;
     position: absolute;
-    left: -4%;
-    top: 1vh;
+    left: -3.6%;
+    top: 0vh;
     border-radius: 50%;
     padding: 5px;
     transition: all ease-out 0.2s;
@@ -212,7 +376,7 @@ export default class ArticleDetail extends Vue {}
   .backtop-icon {
     width: 2.3em;
     position: fixed;
-    left: 2.3%;
+    left: 17%;
     bottom: 7%;
     border-radius: 50%;
     padding: 5px;
@@ -233,7 +397,7 @@ export default class ArticleDetail extends Vue {}
     padding-right: 1.4vw;
     padding-left: 0.6vw;
     transition: all 0.25s;
-    width: 20vw;
+    width: 25vw;
     user-select: none;
     .title {
       width: 99%;
