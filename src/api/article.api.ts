@@ -49,6 +49,25 @@ export async function get_all_field_list(
   }
   return [];
 }
+
+// 获取标签列表
+export async function get_tag_list(
+  ): Promise<string[]> {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: BASE_URL + '/get-tag-list',
+      });
+  
+      if (res && res.data) {
+        return res.data
+      }
+    }
+    catch (error) {
+      // console.error(error)
+    }
+    return [];
+  }
 export async function create_field(
   args: {
     field: string,
@@ -109,7 +128,8 @@ export async function create_article(
     description: string,
     content: string,
     fieldId: number,
-    tags: string[]
+    tags: string[],
+    isVisiable:boolean
   }
 ): Promise<any> {
   try {
@@ -136,6 +156,7 @@ export async function edit_article(
     content?: string,
     fieldId?: number,
     isVisiable?: boolean,
+    isDeleted?: boolean,
     tags?: string[]
   }
 ): Promise<any> {

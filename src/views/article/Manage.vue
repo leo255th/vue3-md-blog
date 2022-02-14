@@ -99,7 +99,16 @@
             <el-button type="text" @click="gotoEdit(article.id)"
               >编辑</el-button
             >
-            <el-button type="text">删除</el-button>
+            <el-popconfirm
+              title="确定要删除?"
+              @confirm="commit_delete_article(article.id)"
+              confirmButtonText="是"
+              cancelButtonText="否"
+            >
+              <template #reference>
+                <el-button type="text">删除</el-button>
+              </template>
+            </el-popconfirm>
           </div>
         </div>
       </div>
@@ -316,6 +325,26 @@ import { ElMessage } from "element-plus";
       this.edit_field = {};
       this.edit_dialog_visible = false;
     },
+    async commit_delete_article(articleId: number) {
+      const res = await edit_article({
+        id: articleId,
+        isDeleted: true,
+      });
+      if (res) {
+        ElMessage.success("删除文章成功");
+        // 更新分区列表
+         this.field_name_list = await get_all_field_list();
+        // 更新文章列表
+        const res = await get_all_article_list({
+          userId: this.userId,
+          fieldId: this.actived_field.id,
+          offset: 0,
+          num: this.article_page_size,
+        });
+        this.article_list = res.list;
+        this.article_total = res.total;
+      }
+    },
     async selectField(index: number) {
       if (this.active_index == index) {
         return;
@@ -353,7 +382,10 @@ import { ElMessage } from "element-plus";
     },
     gotoEdit(articleId: number) {
       // console.log(this.$router)
-      window.open(window.location.origin + `/article/edit/${articleId}`, "_blank");
+      window.open(
+        window.location.origin + `/article/edit/${articleId}`,
+        "_blank"
+      );
     },
   },
 })

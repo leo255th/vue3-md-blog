@@ -39,10 +39,10 @@
             @change="selectTags"
           >
             <el-option
-              v-for="item in tag_name_list"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="(item, index) in tag_name_list"
+              :key="index"
+              :label="item"
+              :value="item"
             >
             </el-option>
           </el-select>
@@ -60,19 +60,14 @@
           />
         </div>
         <div class="btn-container">
-          <el-tooltip
-            class="box-item"
-            effect="dark"
-            content="存储为草稿"
-            placement="top-start"
-          >
-            <el-button style="min-width: 7vw; margin: 5px 0px 5px 5px"
-              >暂存</el-button
-            >
-          </el-tooltip>
+          <el-checkbox
+            class="checkbox"
+            v-model="this.isVisiable"
+            label="显示在主页"
+          ></el-checkbox>
 
           <el-button
-            style="min-width: 7vw; margin: 5px 0px 5px 5px"
+            style="min-width: 5vw; margin: 5px 0px 5px 5px"
             @click="submit()"
             >提交</el-button
           >
@@ -86,9 +81,14 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { get_all_field_list, create_article } from "../../api/article.api";
+import {
+  get_all_field_list,
+  create_article,
+  get_tag_list,
+} from "../../api/article.api";
 import { ref } from "vue";
 import { mapState } from "vuex";
+import { ElMessage } from "element-plus";
 @Options({
   components: {},
   data() {
@@ -96,8 +96,9 @@ import { mapState } from "vuex";
       text: "",
       field: "",
       title: "",
-      description:'',
+      description: "",
       field_name_list: [],
+      isVisiable: false,
       tag_name_list: [],
       tags: ref<string[]>([]),
     };
@@ -106,8 +107,9 @@ import { mapState } from "vuex";
     ...mapState("user", ["userId"]),
   },
   async created() {
-    //
+    // 获取分区列表和标签列表
     this.field_name_list = await get_all_field_list();
+    this.tag_name_list = await get_tag_list();
   },
   methods: {
     // 保存文章
@@ -120,7 +122,6 @@ import { mapState } from "vuex";
     },
     // 提交文章
     async submit() {
-      console.log(this.field);
       const res = await create_article({
         userId: this.userId,
         title: this.title,
@@ -128,8 +129,16 @@ import { mapState } from "vuex";
         fieldId: this.field,
         tags: this.tags,
         content: this.text,
+        isVisiable: this.isVisiable,
       });
-      console.log(res);
+      console.log("articleId:", res);
+      ElMessage.success("文章创建成功");
+      this.$router.push({
+        name: "article_detail",
+        params: {
+          articleId: res,
+        },
+      });
     },
     // ...mapActions("user", ["requestUserInfo"]),
   },
@@ -151,10 +160,11 @@ export default class ArticleAdd extends Vue {}
     width: 95%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
 
     .input-left-container {
-      flex-grow: 1;
+      width: 45%;
+
       .input-inner-container {
         // margin-top: 20px;
         margin-bottom: 20px;
@@ -166,7 +176,8 @@ export default class ArticleAdd extends Vue {}
       }
     }
     .input-right-container {
-      flex-grow: 1;
+      margin-left: 2.3%;
+      width: 45%;
       display: flex;
       flex-direction: row;
       align-items: flex-start;
@@ -179,6 +190,7 @@ export default class ArticleAdd extends Vue {}
         align-items: flex-start;
       }
       .btn-container {
+        margin-left: 2.3%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

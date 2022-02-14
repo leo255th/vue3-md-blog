@@ -356,6 +356,7 @@ export default class ArticleDetail extends Vue {}
   display: flex;
   flex-direction: row;
   position: relative;
+  background-color: white;
   .toc-icon {
     width: 1.3em;
     fill: #707070;

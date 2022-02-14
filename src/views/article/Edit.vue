@@ -39,10 +39,10 @@
             @change="selectTags"
           >
             <el-option
-              v-for="item in tag_name_list"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="(item,index) in tag_name_list"
+              :key="index"
+              :label="item"
+              :value="item"
             >
             </el-option>
           </el-select>
@@ -60,19 +60,15 @@
           />
         </div>
         <div class="btn-container">
-          <el-tooltip
-            class="box-item"
-            effect="dark"
-            content="存储为草稿"
-            placement="top-start"
-          >
-            <el-button style="min-width: 7vw; margin: 5px 0px 5px 5px"
-              >暂存</el-button
-            >
-          </el-tooltip>
+          <el-checkbox
+              class="checkbox"
+              v-model="this.isVisiable"
+              label="显示在主页"
+            ></el-checkbox>
 
           <el-button
-            style="min-width: 7vw; margin: 5px 0px 5px 5px"
+            class="btn"
+            style="min-width: 5vw; margin: 5px 0px 5px 5px"
             @click="submit()"
             >提交</el-button
           >
@@ -90,6 +86,7 @@ import {
   get_all_field_list,
   edit_article,
   get_article_any,
+  get_tag_list,
 } from "../../api/article.api";
 import { ref } from "vue";
 import { mapState } from "vuex";
@@ -105,6 +102,7 @@ import { ElMessage } from "element-plus";
       title: "",
       description: "",
       field_name_list: [],
+      isVisiable:null,
       tag_name_list: [],
       tags: ref<string[]>([]),
     };
@@ -113,8 +111,9 @@ import { ElMessage } from "element-plus";
     ...mapState("user", ["userId"]),
   },
   async created() {
-    // 获取分区列表
+    // 获取分区列表和标签列表
     this.field_name_list = await get_all_field_list();
+    this.tag_name_list=await get_tag_list();
     // 获取要编辑的文章的详情
     this.id=this.$route.params.articleId
     const article = await get_article_any({
@@ -127,6 +126,7 @@ import { ElMessage } from "element-plus";
       this.title=article.title;
       this.description=article.title;
       this.tags=article.tags;
+      this.isVisiable=article.isVisiable
     }
   },
   methods: {
@@ -148,6 +148,7 @@ import { ElMessage } from "element-plus";
         fieldId: this.fieldId,
         tags: this.tags,
         content: this.text,
+        isVisiable:this.isVisiable
       });
       // console.log(res);
       if(res){
@@ -174,10 +175,10 @@ export default class ArticleEdit extends Vue {}
     width: 95%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
 
     .input-left-container {
-      flex-grow: 1;
+      width: 45%;
       .input-inner-container {
         // margin-top: 20px;
         margin-bottom: 20px;
@@ -189,7 +190,8 @@ export default class ArticleEdit extends Vue {}
       }
     }
     .input-right-container {
-      flex-grow: 1;
+      margin-left: 2.3%;
+      width: 45%;
       display: flex;
       flex-direction: row;
       align-items: flex-start;
@@ -202,6 +204,7 @@ export default class ArticleEdit extends Vue {}
         align-items: flex-start;
       }
       .btn-container {
+        margin-left: 2.3%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
