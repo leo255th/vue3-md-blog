@@ -271,6 +271,7 @@ export default class ArticleDetail extends Vue {}
       border-bottom: 1px solid #99999960;
       line-height: 2em;
       height: 2em;
+      margin-bottom: 0.3em;
     }
     .info-row {
       font-size: 0.9em;

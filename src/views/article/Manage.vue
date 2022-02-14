@@ -93,8 +93,12 @@
             ></el-checkbox>
           </div>
           <div class="btn-row">
-            <el-button type="text">查看</el-button>
-            <el-button type="text">编辑</el-button>
+            <el-button type="text" @click="gotoDetail(article.id)"
+              >查看</el-button
+            >
+            <el-button type="text" @click="gotoEdit(article.id)"
+              >编辑</el-button
+            >
             <el-button type="text">删除</el-button>
           </div>
         </div>
@@ -340,6 +344,16 @@ import { ElMessage } from "element-plus";
       if (res) {
         ElMessage.success("修改已保存");
       }
+    },
+
+    // 打开页面
+    gotoDetail(articleId: number) {
+      // console.log(this.$router)
+      window.open(window.location.origin + `/article/${articleId}`, "_blank");
+    },
+    gotoEdit(articleId: number) {
+      // console.log(this.$router)
+      window.open(window.location.origin + `/article/edit/${articleId}`, "_blank");
     },
   },
 })

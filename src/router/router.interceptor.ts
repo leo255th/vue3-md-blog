@@ -2,6 +2,11 @@ import store from 'store2'
 import router from '.';
 import vuex_store from '../store'
 import { get_access_token } from "../api/user.api";
+const whitePathNameList=[ // 以下路径name不检查权限
+  "home",
+  "article_detail",
+  'NotFound'
+];
 router.beforeEach(async (to, from, next) => {
   if (to.path == '/') {
     const ticket_token = to.query.ticket_token;
@@ -11,6 +16,12 @@ router.beforeEach(async (to, from, next) => {
         ticketToken: ticket_token as string
       })
       next({ path: '/' });
+    }
+  }
+  if(!whitePathNameList.includes(to.name as string)){
+    // 检查权限,如果没有token进入非游客页面，直接跳转到404
+    if(!store.get("access_token")){
+      next({path:'/404'})
     }
   }
   // 如果本地有access_token,刷新用户信息

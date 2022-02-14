@@ -28,10 +28,12 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path:'/404',
+    name:"NotFound",
     component:()=>import('@/views/404.vue')
   },
   {
-    path:'/*',
+    path:'/:pathMatch(.*)*',
+    redirect:'/404',
     component:()=>import('@/views/404.vue')
   }
 ]
