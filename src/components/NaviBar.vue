@@ -35,7 +35,7 @@ import { mapActions, mapState } from "vuex";
           this.$router.push({ path: "/" });
           break;
         case "文章搜索":
-          this.$router.push({ path: "/list" });
+          this.$router.push({ path: "/search" });
           break;
         case "新文章":
           this.$router.push({ path: "/article/create" });

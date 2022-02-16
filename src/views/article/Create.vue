@@ -15,6 +15,7 @@
             placeholder="请选择"
             size="large"
             style="width: 15vw"
+            clearable
           >
             <el-option
               v-for="item in field_name_list"
@@ -36,7 +37,7 @@
             :reserve-keyword="false"
             placeholder="请输入"
             style="width: 24vw"
-            @change="selectTags"
+            clearable
           >
             <el-option
               v-for="(item, index) in tag_name_list"
@@ -116,9 +117,6 @@ import { ElMessage } from "element-plus";
     save(text: string, html: string) {
       console.log("text:", text);
       console.log("html:", html);
-    },
-    selectTags(val: string[]) {
-      console.log(val);
     },
     // 提交文章
     async submit() {

@@ -53,22 +53,22 @@ export async function get_all_field_list(
 
 // 获取标签列表
 export async function get_tag_list(
-  ): Promise<string[]> {
-    try {
-      const res = await axios({
-        method: 'get',
-        url: BASE_URL + '/get-tag-list',
-      });
-  
-      if (res && res.data) {
-        return res.data
-      }
+): Promise<string[]> {
+  try {
+    const res = await axios({
+      method: 'get',
+      url: BASE_URL + '/get-tag-list',
+    });
+
+    if (res && res.data) {
+      return res.data
     }
-    catch (error) {
-      // console.error(error)
-    }
-    return [];
   }
+  catch (error) {
+    // console.error(error)
+  }
+  return [];
+}
 export async function create_field(
   args: {
     field: string,
@@ -130,7 +130,7 @@ export async function create_article(
     content: string,
     fieldId: number,
     tags: string[],
-    isVisiable:boolean
+    isVisiable: boolean
   }
 ): Promise<any> {
   try {
@@ -182,6 +182,7 @@ export async function get_article_list(
   args: {
     userId: number,
     fieldId?: number,
+    keyword?: string,
     tags?: string[],
     offset?: number,
     num?: number
@@ -219,6 +220,7 @@ export async function get_all_article_list(
   args: {
     userId: number,
     fieldId?: number,
+    keyword?: string,
     tags?: string[],
     offset?: number,
     num?: number
@@ -267,7 +269,7 @@ export async function get_article_visiable(
   userId: number,
   title: string,
   description: string,
-  content:string,
+  content: string,
   field: string,
   fieldId: number,
   tags: string[],
@@ -299,7 +301,7 @@ export async function get_article_any(
   userId: number,
   title: string,
   description: string,
-  content:string,
+  content: string,
   field: string,
   fieldId: number,
   tags: string[],
