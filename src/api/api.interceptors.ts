@@ -28,9 +28,8 @@ axios.interceptors.response.use((response) => {
         // 登陆失败或会话过期等
         // vuex_store.commit('update_err_msg',message)
         window.location.href =
-        "https://sso.leoyiblog.cn/?redirect=localhost:8080";
-
-      // "https://sso.leoyiblog.cn/?redirect=leoyiblog.cn";
+        "https://sso.leoyiblog.cn/?redirect=leoyiblog.cn";
+        // "https://sso.leoyiblog.cn/?redirect=localhost:8080";
     }
     if(statusCode==404){
         // 访问未授权的页面
