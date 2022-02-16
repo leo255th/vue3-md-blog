@@ -2,7 +2,7 @@
   <div class="navibar">
     <div class="left">
       <div class="mylogo" @click="goto('首页')">Leoyi-blog</div>
-      <div class="nav-btn" @click="goto('文章列表')">文章列表</div>
+      <div class="nav-btn" @click="goto('文章搜索')">文章搜索</div>
     </div>
     <div class="right">
       <div v-if="!isLogin" class="nav-btn" @click="goto('登录')">登录</div>
@@ -34,7 +34,7 @@ import { mapActions, mapState } from "vuex";
         case "首页":
           this.$router.push({ path: "/" });
           break;
-        case "文章列表":
+        case "文章搜索":
           this.$router.push({ path: "/list" });
           break;
         case "新文章":

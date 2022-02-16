@@ -1,8 +1,11 @@
 <template>
   <div class="slide-in container">
+    <div class="title">博主留言</div>
+    <div class="message-box">{{message}}</div>
     <div class="title">最新文章</div>
     <div class="article-list" v-if="article_list">
-      <article-card class="item"
+      <article-card
+        class="item"
         v-for="(article, index) in article_list.list"
         :key="index"
         :article="article"
@@ -16,12 +19,14 @@ import { Options, Vue } from "vue-class-component";
 import { mapActions } from "vuex";
 import { get_article_list } from "@/api/article.api";
 import ArticleCard from "@/components/ArticleCard.vue";
+import { get_user_message } from "@/api/user.api";
 @Options({
   components: { ArticleCard },
   data() {
     return {
       article_list: null,
       urlPref: window.location.origin,
+      message:'',
     };
   },
   async created() {
@@ -31,6 +36,7 @@ import ArticleCard from "@/components/ArticleCard.vue";
       num: 4,
       offset: 0,
     });
+    this.message=await get_user_message({userId:1});
   },
   methods: {
     // ...mapActions("user", ["requestUserInfo"]),
@@ -44,9 +50,9 @@ export default class Home extends Vue {}
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 10vh;
+  margin-top: 5vh;
   .title {
-    width: 85%;
+    width: 88%;
     // margin-left: 4%;
     // text-align: center;
     font-size: 1.6em;
@@ -56,13 +62,19 @@ export default class Home extends Vue {}
     height: 2em;
     margin-bottom: 0.3em;
     padding-left: 1vw;
-
+  }
+  .message-box{
+    font-size: 1.1em;
+    padding-left: 1vw;
+    margin-bottom:4vh;
+    color: #707070;
+    max-width:85%;
   }
   .article-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    .item{
+    .item {
       width: 90%;
       margin-right: 2%;
     }

@@ -58,3 +58,25 @@ export async function user_log_out():Promise<any>{
     }
 }
 
+// 获取用户留言
+export async function get_user_message(
+    args: {
+      userId: number
+    }
+  ): Promise<string> {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: BASE_URL + '/get-user-message',
+        params: {
+          ...args
+        }
+      })
+      if (res && res.data) {
+        return res.data;
+      }
+    } catch (error) {
+      // console.error(error)
+    }
+    return '无';
+  }

@@ -2,6 +2,8 @@
   <div class="footer">
     <span>Leoyi-个人博客</span>
     <span class="block">|</span>
+    <span title="邮箱:  leoyi255@126.com">联系方式</span>
+    <span class="block">|</span>
     <a class="link" href="https://beian.miit.gov.cn/" target="_blank"
       >赣ICP备2021011285号-1</a
     >
