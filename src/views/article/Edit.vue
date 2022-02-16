@@ -132,15 +132,15 @@ import { ElMessage } from "element-plus";
   methods: {
     // 保存文章
     save(text: string, html: string) {
-      console.log("text:", text);
-      console.log("html:", html);
+      // console.log("text:", text);
+      // console.log("html:", html);
     },
     selectTags(val: string[]) {
-      console.log(val);
+      // console.log(val);
     },
     // 提交文章
     async submit() {
-      console.log(this.field);
+      // console.log(this.field);
       const res = await edit_article({
         id: this.id,
         title: this.title,
@@ -150,7 +150,7 @@ import { ElMessage } from "element-plus";
         content: this.text,
         isVisiable:this.isVisiable
       });
-      // console.log(res);
+      // // console.log(res);
       if(res){
       ElMessage.success("修改保存成功");
       }

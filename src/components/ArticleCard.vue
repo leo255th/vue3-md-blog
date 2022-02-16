@@ -41,7 +41,7 @@ import { Options, Vue } from "vue-class-component";
       type:string,
       data:any
     ){
-      console.log('点击标签')
+      // console.log('点击标签')
       this.$router.push(
         {
           name:'search',

@@ -365,7 +365,7 @@ import { ElMessage } from "element-plus";
     },
     // 更新文章可见状态
     async update_article_visiable(article: any) {
-      console.log("触发change");
+      // console.log("触发change");
       const res = await edit_article({
         id: article.id,
         isVisiable: article.isVisiable,
@@ -377,11 +377,11 @@ import { ElMessage } from "element-plus";
 
     // 打开页面
     gotoDetail(articleId: number) {
-      // console.log(this.$router)
+      // // console.log(this.$router)
       window.open(window.location.origin + `/article/${articleId}`, "_blank");
     },
     gotoEdit(articleId: number) {
-      // console.log(this.$router)
+      // // console.log(this.$router)
       window.open(
         window.location.origin + `/article/edit/${articleId}`,
         "_blank"

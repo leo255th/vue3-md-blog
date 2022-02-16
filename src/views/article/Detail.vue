@@ -150,7 +150,7 @@ import { mapState } from "vuex";
   },
   async created() {
     //
-    console.log("loginstate:", this.isLogin);
+    // console.log("loginstate:", this.isLogin);
     this.articleId = this.$route.params.articleId;
     if (this.articleId && typeof +this.articleId == "number") {
       this.article = await this.get_article({
@@ -166,7 +166,7 @@ import { mapState } from "vuex";
     setTimeout(() => {
       const anchors =
         this.$refs.preview.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
-      console.log("anchors:", anchors);
+      // console.log("anchors:", anchors);
       const titles = Array.from(anchors).filter(
         (title: any) => !!title.innerText.trim()
       );
@@ -237,12 +237,12 @@ import { mapState } from "vuex";
     },
     // 跳转到顶部
     backtop() {
-      console.log("backtop");
+      // console.log("backtop");
       window.scrollTo(0, 0);
     },
     // 打开页面
     openPage(articleId: number) {
-      // console.log(this.$router)
+      // // console.log(this.$router)
       window.open(window.location.origin + `/article/${articleId}`, "_blank");
     },
   },
