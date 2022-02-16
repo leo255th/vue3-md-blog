@@ -534,7 +534,8 @@ export default class Home extends Vue {}
       justify-content: space-between;
       align-items: center;
       .content-area {
-        flex-grow: 4;
+        // flex-grow: 4;
+        max-width: 50vw;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -572,7 +573,7 @@ export default class Home extends Vue {}
         }
       }
       .operation-area {
-        flex-grow: 1;
+        // flex-grow: 1;
         min-width: 10vw;
       }
     }

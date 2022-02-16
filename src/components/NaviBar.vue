@@ -45,8 +45,8 @@ import { mapActions, mapState } from "vuex";
           break;
         case "登录":
           window.location.href =
-            // "https://sso.leoyiblog.cn/?redirect=leoyiblog.cn";
-          "https://sso.leoyiblog.cn/?redirect=localhost:8080";
+            "https://sso.leoyiblog.cn/?redirect=leoyiblog.cn";
+          // "https://sso.leoyiblog.cn/?redirect=localhost:8080";
           break;
         default:
           break;

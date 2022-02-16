@@ -32,10 +32,22 @@ VueMarkdownEditor.use(createEmojiPlugin());
 VueMarkdownEditor.use(createKatexPlugin());
 VueMarkdownEditor.use(createMermaidPlugin());
 VueMarkdownEditor.use(createAlignPlugin());
+VMdPreview.use(vuepressTheme, {
+  Prism,
+  extend(md:any){
+    //
+  }
+});
+VMdPreview.use(createTodoListPlugin());
+VMdPreview.use(createEmojiPlugin());
+VMdPreview.use(createKatexPlugin());
+VMdPreview.use(createMermaidPlugin());
+VMdPreview.use(createAlignPlugin());
 const app=createApp(App);
 app.use(store);
 app.use(router);
 app.use(ElementPlus);
 app.use(VueMarkdownEditor);
+app.use(VMdPreview);
 app.mount('#app')
 // createApp(App).use(store).use(router).mount('#app')
