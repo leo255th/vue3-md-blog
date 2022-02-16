@@ -77,6 +77,7 @@ div.navibar {
   .left,
   .right {
     .nav-btn {
+      user-select: none;
       line-height: 60px;
       padding-left: 10px;
       padding-right: 10px;
@@ -135,6 +136,7 @@ div.navibar {
         .item {
           height: 0px;
           overflow: hidden;
+          user-select: none;
           transition: all 0.2s;
           &:hover {
             cursor: pointer;

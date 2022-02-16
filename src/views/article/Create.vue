@@ -76,7 +76,13 @@
       </div>
     </div>
     <div class="editor-container">
-      <v-md-editor v-model="text" height="70vh" @save="save" left-toolbar="emoji todo-list"></v-md-editor>
+      <v-md-editor
+        v-model="text"
+        height="70vh"
+        left-toolbar="image emoji todo-list"
+        :disabled-menus="[]"
+        @upload-image="handleUploadImage"
+      ></v-md-editor>
     </div>
   </div>
 </template>
@@ -86,6 +92,7 @@ import {
   get_all_field_list,
   create_article,
   get_tag_list,
+  uploadImages,
 } from "../../api/article.api";
 import { ref } from "vue";
 import { mapState } from "vuex";
@@ -138,6 +145,18 @@ import { ElMessage } from "element-plus";
           articleId: res,
         },
       });
+    },
+    // 上传图片
+    async handleUploadImage(event: any, insertImage: any, files: any) {
+      const res = await uploadImages(files[0]);
+      if (res) {
+        insertImage({
+          url: `https://admin.leoyiblog.cn${res}`,
+          desc: res,
+          width: '300',
+          height: '300',
+        });
+      }
     },
     // ...mapActions("user", ["requestUserInfo"]),
   },

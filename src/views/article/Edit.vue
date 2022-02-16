@@ -39,7 +39,7 @@
             @change="selectTags"
           >
             <el-option
-              v-for="(item,index) in tag_name_list"
+              v-for="(item, index) in tag_name_list"
               :key="index"
               :label="item"
               :value="item"
@@ -61,10 +61,10 @@
         </div>
         <div class="btn-container">
           <el-checkbox
-              class="checkbox"
-              v-model="this.isVisiable"
-              label="显示在主页"
-            ></el-checkbox>
+            class="checkbox"
+            v-model="this.isVisiable"
+            label="显示在主页"
+          ></el-checkbox>
 
           <el-button
             class="btn"
@@ -76,7 +76,13 @@
       </div>
     </div>
     <div class="editor-container">
-      <v-md-editor v-model="text" height="70vh" @save="save"></v-md-editor>
+      <v-md-editor
+        v-model="text"
+        height="70vh"
+        left-toolbar="image emoji todo-list"
+        :disabled-menus="[]"
+        @upload-image="handleUploadImage"
+      ></v-md-editor>
     </div>
   </div>
 </template>
@@ -87,6 +93,7 @@ import {
   edit_article,
   get_article_any,
   get_tag_list,
+  uploadImages,
 } from "../../api/article.api";
 import { ref } from "vue";
 import { mapState } from "vuex";
@@ -95,14 +102,14 @@ import { ElMessage } from "element-plus";
   components: {},
   data() {
     return {
-      id:null,
+      id: null,
       text: "",
       fieldId: null,
-      field:null,
+      field: null,
       title: "",
       description: "",
       field_name_list: [],
-      isVisiable:null,
+      isVisiable: null,
       tag_name_list: [],
       tags: ref<string[]>([]),
     };
@@ -114,20 +121,20 @@ import { ElMessage } from "element-plus";
     document.title = "文章编辑 | Leoyi的个人博客";
     // 获取分区列表和标签列表
     this.field_name_list = await get_all_field_list();
-    this.tag_name_list=await get_tag_list();
+    this.tag_name_list = await get_tag_list();
     // 获取要编辑的文章的详情
-    this.id=this.$route.params.articleId
+    this.id = this.$route.params.articleId;
     const article = await get_article_any({
       articleId: this.id,
     });
     if (article) {
       this.text = article.content;
-      this.field=article.field;
-      this.fieldId=article.fieldId+"";
-      this.title=article.title;
-      this.description=article.title;
-      this.tags=article.tags;
-      this.isVisiable=article.isVisiable
+      this.field = article.field;
+      this.fieldId = article.fieldId + "";
+      this.title = article.title;
+      this.description = article.title;
+      this.tags = article.tags;
+      this.isVisiable = article.isVisiable;
     }
   },
   methods: {
@@ -149,11 +156,23 @@ import { ElMessage } from "element-plus";
         fieldId: this.fieldId,
         tags: this.tags,
         content: this.text,
-        isVisiable:this.isVisiable
+        isVisiable: this.isVisiable,
       });
       // // console.log(res);
-      if(res){
-      ElMessage.success("修改保存成功");
+      if (res) {
+        ElMessage.success("修改保存成功");
+      }
+    },
+    // 上传图片
+    async handleUploadImage(event: any, insertImage: any, files: any) {
+      const res = await uploadImages(files[0]);
+      if (res) {
+        insertImage({
+          url: `https://admin.leoyiblog.cn${res}`,
+          desc: res,
+          width: '300',
+          height: '300',
+        });
       }
     },
     // ...mapActions("user", ["requestUserInfo"]),

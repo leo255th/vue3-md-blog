@@ -324,3 +324,15 @@ export async function get_article_any(
   }
   return null;
 }
+// 上传图片
+export async function uploadImages(file:any):Promise<string|undefined>{
+  const param=new FormData();
+  param.append("file",file)
+  const config={
+    headers: { "Content-Type": "multipart/form-data" }
+  }
+  const res=await axios.post(BASE_URL+"/upload", param, config);
+  if(res&&res.data){
+    return res.data as string
+  }
+}
