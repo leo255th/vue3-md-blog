@@ -153,8 +153,8 @@ import { ElMessage } from "element-plus";
         insertImage({
           url: `https://admin.leoyiblog.cn${res}`,
           desc: res,
-          width: '300',
-          height: '300',
+          width: 'auto',
+          height: 'auto',
         });
       }
     },
