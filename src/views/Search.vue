@@ -58,6 +58,8 @@
       </div>
     </div>
     <div class="article-list-container" v-if="article_list">
+      <div class="no-article" v-if="article_list.length == 0">无相关文章</div>
+
       <article-card
         class="item"
         v-for="(article, index) in article_list"
@@ -73,6 +75,7 @@
         :total="article_total"
         v-model:page-size="article_page_size"
         v-model:current-page="article_page"
+        v-if="article_total > article_page_size"
       >
       </el-pagination>
     </div>
@@ -176,6 +179,8 @@ import ArticleCard from "@/components/ArticleCard.vue";
   methods: {
     // 搜索文章列表
     async search() {
+      this.article_list = null;
+      this.article_total = 0;
       this.args = {};
       if (this.keyword) {
         this.args.keyword = this.keyword;
@@ -227,6 +232,14 @@ export default class Search extends Vue {}
     flex-wrap: wrap;
     width: 70%;
     margin-left: 10%;
+    .no-article {
+      width: 100%;
+      text-align: center;
+      line-height: 30vh;
+      height: 30vh;
+      font-size: 1.6em;
+      color: #707070;
+    }
     .item {
       width: 100%;
     }
