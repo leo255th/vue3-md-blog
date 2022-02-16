@@ -19,12 +19,12 @@
         </div>
         <div class="info-row">
           <div class="label">分区：</div>
-          <div class="field">{{ article.field }}</div>
+          <div class="field" @click='gotoSearch("field",article.field)'>{{ article.field }}</div>
         </div>
         <div class="info-row">
           <div class="label">标签：</div>
           <div class="tags">
-            <div class="tag" v-for="(tag, index) in article.tags" :key="index">
+            <div class="tag" v-for="(tag, index) in article.tags" :key="index" @click='gotoSearch("tag",tag)'>
               {{ tag }}
             </div>
           </div>
@@ -214,6 +214,14 @@ import { mapState } from "vuex";
         });
       }
     },
+    gotoSearch(type: string, data: any) {
+      this.$router.push({
+        name: "search",
+        query: {
+          [type]: data,
+        },
+      });
+    },
     setToc() {
       if (this.useToc == false) {
         // 开启toc
@@ -223,7 +231,7 @@ import { mapState } from "vuex";
         setTimeout(() => {
           this.titles = [..._titles];
           this.toc_title = "目录导航";
-        }, 200);
+        }, 300);
       }
       this.useToc = this.useToc ? false : true;
     },
@@ -281,11 +289,11 @@ export default class ArticleDetail extends Vue {}
       margin-left: 4%;
       line-height: 2em;
       min-height: 2em;
-        color: #707070;
+      color: #707070;
       .label {
         min-width: 25%;
       }
-      .description{
+      .description {
       }
       .field {
         font-style: italic;
@@ -336,7 +344,7 @@ export default class ArticleDetail extends Vue {}
       width: 85%;
       margin-left: 4%;
       font-size: 1em;
-      line-height : 1.5em;
+      line-height: 1.5em;
       min-height: 1.5em;
       margin-bottom: 0.5em;
       color: #707070;

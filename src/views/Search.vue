@@ -84,9 +84,10 @@ import {
   get_all_article_list,
   get_all_field_list,
   get_article_list,
+  get_field_list,
   get_tag_list,
 } from "@/api/article.api";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { Options, Vue } from "vue-class-component";
 import { mapActions, mapState } from "vuex";
 import ArticleCard from "@/components/ArticleCard.vue";
@@ -95,11 +96,27 @@ import ArticleCard from "@/components/ArticleCard.vue";
   components: { ArticleCard },
   async created() {
     // 获取分区列表和标签列表
-    this.field_name_list = await get_all_field_list();
+    this.field_name_list = await this.request_field_list();
     this.tag_name_list = await get_tag_list();
+    // 查看是否url里带有fields或者tags的参数
+    if (this.urlQuery.field) {
+      const index = this.field_name_list.findIndex((item: any) => {
+        return item.field == this.urlQuery.field;
+      });
+      this.field = index > -1 ? this.field_name_list[index]["id"] : null;
+      this.searchWhenCreated=true;
+    }
+    if (this.urlQuery.tag) {
+      this.tags.push(this.urlQuery.tag);
+      this.searchWhenCreated=true;
+    }
+    if(this.searchWhenCreated){
+      await this.search();
+    }
   },
   data() {
     return {
+      searchWhenCreated:false,
       keyword: null,
       field: null,
       field_name_list: [],
@@ -120,18 +137,28 @@ import ArticleCard from "@/components/ArticleCard.vue";
   },
   computed: {
     ...mapState("user", ["isLogin"]),
-    get_list() {
+    search_article_list() {
       if (this.isLogin) {
         return get_all_article_list;
       } else {
         return get_article_list;
       }
     },
+    request_field_list(){
+      if(this.isLogin){
+        return get_all_field_list;
+      }else{
+        return get_field_list;
+      }
+    },
+    urlQuery(){
+      return this.$route.query;
+    }
   },
   watch: {
     async article_page(newPage, curPage) {
       // 请求文章列表
-      const res = await this.get_list({
+      const res = await this.search_article_list({
         userId: 1,
         ...this.args,
         offset: (this.article_page - 1) * this.article_page_size,
@@ -140,10 +167,14 @@ import ArticleCard from "@/components/ArticleCard.vue";
       this.article_list = res.list;
       this.article_total = res.total;
     },
+    async urlQuery(){
+      window.open(window.location.href,'_blank');
+    }
   },
   methods: {
     // 搜索文章列表
     async search() {
+      this.args={};
       if (this.keyword) {
         this.args.keyword = this.keyword;
       }
@@ -153,7 +184,7 @@ import ArticleCard from "@/components/ArticleCard.vue";
       if (this.tags.length > 0) {
         this.args.tags = this.tags;
       }
-      const res = await this.get_list({
+      const res = await this.search_article_list({
         userId: 1,
         num: this.article_page_size,
         offset: 0,
@@ -197,9 +228,9 @@ export default class Search extends Vue {}
     .item {
       width: 100%;
     }
-    .page{
+    .page {
       margin-top: 1.5vh;
-      margin-left: 30%;
+      margin-left: 32%;
     }
   }
 }

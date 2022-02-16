@@ -5,6 +5,7 @@ import { get_access_token } from "../api/user.api";
 const whitePathNameList=[ // 以下路径name不检查权限
   "home",
   "article_detail",
+  "search",
   'NotFound'
 ];
 router.beforeEach(async (to, from, next) => {
