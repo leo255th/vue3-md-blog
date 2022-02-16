@@ -75,7 +75,7 @@
             {{ "时间：" + new Date(article.time).toLocaleString() }}
           </div>
           <div class="article_description">
-            {{ "摘要：" + article.description }}
+            {{ "简介：" + article.description }}
           </div>
           <div class="article_tags">
             <div class="tag" v-for="tag in article.tags" :key="tag">

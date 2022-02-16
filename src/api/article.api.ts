@@ -5,6 +5,7 @@ import vuex_store from '../store'
 
 const BASE_URL = NET_CONFIG.BACKEND_URL + 'article';
 
+
 export async function get_field_list(
 ): Promise<{
   id: number,

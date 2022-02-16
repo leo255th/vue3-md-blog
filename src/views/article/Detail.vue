@@ -12,7 +12,7 @@
           <div class="time">{{ new Date(article.time).toLocaleString() }}</div>
         </div>
         <div class="info-row">
-          <div class="label">摘要：</div>
+          <div class="label">简介：</div>
           <div class="description">
             {{ article.description }}
           </div>
@@ -281,11 +281,13 @@ export default class ArticleDetail extends Vue {}
       margin-left: 4%;
       line-height: 2em;
       min-height: 2em;
+        color: #707070;
       .label {
         min-width: 25%;
       }
+      .description{
+      }
       .field {
-        color: #707070;
         font-style: italic;
         &:hover {
           color: #ffa801;
@@ -334,7 +336,7 @@ export default class ArticleDetail extends Vue {}
       width: 85%;
       margin-left: 4%;
       font-size: 1em;
-      line-height: 1.5em;
+      line-height : 1.5em;
       min-height: 1.5em;
       margin-bottom: 0.5em;
       color: #707070;

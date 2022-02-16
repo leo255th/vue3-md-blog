@@ -1,7 +1,7 @@
 <template>
   <div class="navibar">
     <div class="left">
-      <div class="mylogo"  @click="goto('首页')">Leoyi-blog</div>
+      <div class="mylogo" @click="goto('首页')">Leoyi-blog</div>
       <div class="nav-btn" @click="goto('文章列表')">文章列表</div>
     </div>
     <div class="right">
@@ -32,15 +32,12 @@ import { mapActions, mapState } from "vuex";
     goto(place: string) {
       switch (place) {
         case "首页":
-          console.log("跳转到首页");
           this.$router.push({ path: "/" });
-
           break;
         case "文章列表":
-          console.log("文章列表");
+          this.$router.push({ path: "/list" });
           break;
         case "新文章":
-          console.log("新文章");
           this.$router.push({ path: "/article/create" });
           break;
         case "文章管理":
@@ -207,7 +204,7 @@ div.navibar {
   // font-size: 40px;
   font-size: 2.8em;
   cursor: default;
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 }

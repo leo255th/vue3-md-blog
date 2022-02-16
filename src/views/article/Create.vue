@@ -50,7 +50,7 @@
       </div>
       <div class="input-right-container">
         <div class="input-inner-container">
-          <span style="min-width: 3vw; margin-top: 6px">摘要：</span>
+          <span style="min-width: 3vw; margin-top: 6px">简介：</span>
           <el-input
             v-model="description"
             :rows="4"
