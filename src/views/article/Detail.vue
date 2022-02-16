@@ -149,13 +149,13 @@ import { mapState } from "vuex";
     },
   },
   async created() {
-    //
     // console.log("loginstate:", this.isLogin);
     this.articleId = this.$route.params.articleId;
     if (this.articleId && typeof +this.articleId == "number") {
       this.article = await this.get_article({
         articleId: this.articleId,
       });
+    document.title = `${this.article.title} | Leoyi的个人博客`;
       this.article_list = (
         await this.get_list({
           userId: this.article.userId,

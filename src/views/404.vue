@@ -1,6 +1,6 @@
 <template>
   <div>
-      404 NOT FOUND!
+      资源不存在！
   </div>
 </template>
 <script>

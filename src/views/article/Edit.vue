@@ -111,6 +111,7 @@ import { ElMessage } from "element-plus";
     ...mapState("user", ["userId"]),
   },
   async created() {
+    document.title = "文章编辑 | Leoyi的个人博客";
     // 获取分区列表和标签列表
     this.field_name_list = await get_all_field_list();
     this.tag_name_list=await get_tag_list();

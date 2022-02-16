@@ -95,6 +95,7 @@ import ArticleCard from "@/components/ArticleCard.vue";
 @Options({
   components: { ArticleCard },
   async created() {
+    document.title = "文章搜索 | Leoyi的个人博客";
     // 获取分区列表和标签列表
     this.field_name_list = await this.request_field_list();
     this.tag_name_list = await get_tag_list();
@@ -104,19 +105,19 @@ import ArticleCard from "@/components/ArticleCard.vue";
         return item.field == this.urlQuery.field;
       });
       this.field = index > -1 ? this.field_name_list[index]["id"] : null;
-      this.searchWhenCreated=true;
+      this.searchWhenCreated = true;
     }
     if (this.urlQuery.tag) {
       this.tags.push(this.urlQuery.tag);
-      this.searchWhenCreated=true;
+      this.searchWhenCreated = true;
     }
-    if(this.searchWhenCreated){
+    if (this.searchWhenCreated) {
       await this.search();
     }
   },
   data() {
     return {
-      searchWhenCreated:false,
+      searchWhenCreated: false,
       keyword: null,
       field: null,
       field_name_list: [],
@@ -144,16 +145,16 @@ import ArticleCard from "@/components/ArticleCard.vue";
         return get_article_list;
       }
     },
-    request_field_list(){
-      if(this.isLogin){
+    request_field_list() {
+      if (this.isLogin) {
         return get_all_field_list;
-      }else{
+      } else {
         return get_field_list;
       }
     },
-    urlQuery(){
+    urlQuery() {
       return this.$route.query;
-    }
+    },
   },
   watch: {
     async article_page(newPage, curPage) {
@@ -167,14 +168,15 @@ import ArticleCard from "@/components/ArticleCard.vue";
       this.article_list = res.list;
       this.article_total = res.total;
     },
-    async urlQuery(){
-      window.open(window.location.href,'_blank');
-    }
+    async urlQuery() {
+      if (this.$route.name == "search")
+        window.open(window.location.href, "_blank");
+    },
   },
   methods: {
     // 搜索文章列表
     async search() {
-      this.args={};
+      this.args = {};
       if (this.keyword) {
         this.args.keyword = this.keyword;
       }
