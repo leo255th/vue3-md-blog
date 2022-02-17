@@ -2,7 +2,9 @@
   <div class="out-container slide-in" v-if="article">
     <div class="left-side-container">
       <div class="meta-container shadow">
-        <div class="meta-title">文章信息</div>
+        <div class="meta-title">文章信息
+          <span class="edit-btn" v-if="isLogin" @click="gotoEdit(article.id)">编辑</span>
+        </div>
         <div class="info-row">
           <div class="label">标题：</div>
           <div class="title">{{ article.title }}</div>
@@ -147,6 +149,7 @@ import { mapState } from "vuex";
         return get_article_list;
       }
     },
+    
   },
   async created() {
     // console.log("loginstate:", this.isLogin);
@@ -222,6 +225,14 @@ import { mapState } from "vuex";
         },
       });
     },
+    // 打开编辑页面
+    gotoEdit(articleId: number) {
+      // // console.log(this.$router)
+      window.open(
+        window.location.origin + `/article/edit/${articleId}`,
+        "_blank"
+      );
+    },
     setToc() {
       if (this.useToc == false) {
         // 开启toc
@@ -280,6 +291,16 @@ export default class ArticleDetail extends Vue {}
       line-height: 2em;
       height: 2em;
       margin-bottom: 0.3em;
+      .edit-btn{
+        font-size: 0.6em;
+        margin-left: 5%;
+        font-weight: normal;
+        color: #707070;
+        &:hover{
+          color:#ffa801;
+          cursor: pointer;
+        }
+      }
     }
     .info-row {
       font-size: 0.9em;

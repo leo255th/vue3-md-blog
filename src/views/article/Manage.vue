@@ -119,6 +119,7 @@
         :total="article_total"
         v-model:page-size="article_page_size"
         v-model:current-page="article_page"
+        v-if="article_total > article_page_size"
       >
       </el-pagination>
     </div>
@@ -397,11 +398,12 @@ export default class Home extends Vue {}
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 80vw;
+  width: 85vw;
   min-height: 80vh;
   border-radius: 4px;
   .field-list {
-    width: 11vw;
+    min-width: 12vw;
+    max-width: 16vw;
     display: flex;
     flex-direction: column;
     align-items: center;
