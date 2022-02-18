@@ -141,9 +141,9 @@ import { ElMessage } from "element-plus";
               text: "提示",
               action(editor: any) {
                 editor.insert(function (selected: any) {
-                  const prefix = "::: tip ";
+                  const prefix = "::: tip 提示\n";
                   const suffix = "\n:::";
-                  const placeholder = "提示";
+                  const placeholder = "这是一段提示信息";
                   const content = selected || placeholder;
 
                   return {
@@ -158,9 +158,9 @@ import { ElMessage } from "element-plus";
               text: "注意",
               action(editor: any) {
                 editor.insert(function (selected: any) {
-                  const prefix = "::: warning ";
+                  const prefix = "::: warning 注意\n";
                   const suffix = "\n:::";
-                  const placeholder = "注意";
+                  const placeholder = "这是一段警告";
                   const content = selected || placeholder;
 
                   return {
@@ -175,9 +175,9 @@ import { ElMessage } from "element-plus";
               text: "警告",
               action(editor: any) {
                 editor.insert(function (selected: any) {
-                  const prefix = "::: danger ";
+                  const prefix = "::: danger 警告\n";
                   const suffix = "\n:::";
-                  const placeholder = "警告";
+                  const placeholder = "这是一个危险警告";
                   const content = selected || placeholder;
 
                   return {
@@ -192,9 +192,9 @@ import { ElMessage } from "element-plus";
               text: "详情",
               action(editor: any) {
                 editor.insert(function (selected: any) {
-                  const prefix = "::: details ";
-                  const suffix = "\n注意：IE / Edge 中不生效\n:::";
-                  const placeholder = "详细信息";
+                  const prefix = "::: details 详细信息\n";
+                  const suffix = "\n:::";
+                  const placeholder = "注意：IE / Edge 中不生效";
                   const content = selected || placeholder;
 
                   return {

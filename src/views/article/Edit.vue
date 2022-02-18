@@ -79,8 +79,10 @@
       <v-md-editor
         v-model="text"
         height="70vh"
-        left-toolbar="image emoji todo-list"
+        left-toolbar="image emoji todo-list | customToolbar1 save"
         :disabled-menus="[]"
+        :toolbar="toolbar"
+        @save="submit()"
         @upload-image="handleUploadImage"
       ></v-md-editor>
     </div>
@@ -112,6 +114,100 @@ import { ElMessage } from "element-plus";
       isVisiable: null,
       tag_name_list: [],
       tags: ref<string[]>([]),
+      toolbar: {
+        // 自定义工具栏
+        customToolbar1: {
+          title: "插入预定义结构",
+          icon: "v-md-icon-tip",
+          menus: [
+            {
+              name: "menu1",
+              text: "静态资源地址前缀",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "[";
+                  const suffix = "](https://admin.leoyiblog.cn/files/)";
+                  const placeholder = "名称";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
+            {
+              name: "menu2",
+              text: "提示",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "::: tip 提示\n";
+                  const suffix = "\n:::";
+                  const placeholder = "这是一段提示信息";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
+            {
+              name: "menu3",
+              text: "注意",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "::: warning 注意\n";
+                  const suffix = "\n:::";
+                  const placeholder = "这是一段警告";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
+            {
+              name: "menu4",
+              text: "警告",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "::: danger 警告\n";
+                  const suffix = "\n:::";
+                  const placeholder = "这是一个危险警告";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
+            {
+              name: "menu5",
+              text: "详情",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "::: details 详细信息\n";
+                  const suffix = "\n:::";
+                  const placeholder = "注意：IE / Edge 中不生效";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
+          ],
+        },
+      },
     };
   },
   computed: {
@@ -170,8 +266,8 @@ import { ElMessage } from "element-plus";
         insertImage({
           url: `https://admin.leoyiblog.cn${res}`,
           desc: res,
-          width: 'auto',
-          height: 'auto',
+          width: "auto",
+          height: "auto",
         });
       }
     },
