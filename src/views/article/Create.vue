@@ -79,10 +79,11 @@
       <v-md-editor
         v-model="text"
         height="70vh"
-        left-toolbar="image emoji todo-list | customToolbar1"
+        left-toolbar="image emoji todo-list | customToolbar1 save"
         :disabled-menus="[]"
         :toolbar="toolbar"
         @upload-image="handleUploadImage"
+        @save="temp_submit"
       ></v-md-editor>
     </div>
   </div>
@@ -152,6 +153,57 @@ import { ElMessage } from "element-plus";
                 });
               },
             },
+            {
+              name: "menu3",
+              text: "注意",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "::: warning ";
+                  const suffix = "\n:::";
+                  const placeholder = "注意";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
+            {
+              name: "menu4",
+              text: "警告",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "::: danger ";
+                  const suffix = "\n:::";
+                  const placeholder = "警告";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
+            {
+              name: "menu5",
+              text: "详情",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "::: details ";
+                  const suffix = "\n注意：IE / Edge 中不生效\n:::";
+                  const placeholder = "详细信息";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
           ],
         },
       },
@@ -174,26 +226,44 @@ import { ElMessage } from "element-plus";
     },
     // 暂存文章
     async temp_submit() {
-      const res = await create_article({
-        userId: this.userId,
-        title: this.title,
-        description: this.description,
-        fieldId: this.field,
-        tags: this.tags,
-        content: this.text,
-        isVisiable: false,
-      });
-      // console.log("articleId:", res);
-      if (res) {
-        this.temp_article_id = res;
-        ElMessage.success(`文章暂存成功,文章id: ${res}`);
+      // 如果没有暂时保存过文章，先创建一个新文章，设为不可见
+      if (!this.temp_article_id) {
+        const res = await create_article({
+          userId: this.userId,
+          title: this.title,
+          description: this.description,
+          fieldId: this.field,
+          tags: this.tags,
+          content: this.text,
+          isVisiable: false,
+        });
+        // console.log("articleId:", res);
+        if (res) {
+          this.temp_article_id = res;
+          ElMessage.success(`文章暂存成功,文章id: ${res}`);
+        }
+      } else {
+        // 如果已经暂存过，则接下来的暂存调用edit接口
+        const res = await edit_article({
+          id: this.temp_article_id,
+          title: this.title,
+          description: this.description,
+          fieldId: this.fieldId,
+          tags: this.tags,
+          content: this.text,
+          isVisiable: false,
+        });
+        if (res) {
+          this.temp_article_id = res;
+          ElMessage.success(`文章暂存成功,文章id: ${res}`);
+        }
       }
     },
     // 提交修改后的暂存文章
     async edit_submit() {
       // console.log(this.field);
       const res = await edit_article({
-        id: this.id,
+        id: this.temp_article_id,
         title: this.title,
         description: this.description,
         fieldId: this.fieldId,
