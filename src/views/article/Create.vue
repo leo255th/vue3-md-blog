@@ -79,8 +79,9 @@
       <v-md-editor
         v-model="text"
         height="70vh"
-        left-toolbar="image emoji todo-list"
+        left-toolbar="image emoji todo-list | customToolbar1"
         :disabled-menus="[]"
+        :toolbar="toolbar"
         @upload-image="handleUploadImage"
       ></v-md-editor>
     </div>
@@ -93,6 +94,7 @@ import {
   create_article,
   get_tag_list,
   uploadImages,
+  edit_article,
 } from "../../api/article.api";
 import { ref } from "vue";
 import { mapState } from "vuex";
@@ -104,11 +106,55 @@ import { ElMessage } from "element-plus";
       text: "",
       field: "",
       title: "",
+      temp_article_id: null,
       description: "",
       field_name_list: [],
       isVisiable: false,
       tag_name_list: [],
       tags: ref<string[]>([]),
+      toolbar: {
+        // 自定义工具栏
+        customToolbar1: {
+          title: "插入预定义结构",
+          icon: "v-md-icon-tip",
+          menus: [
+            {
+              name: "menu1",
+              text: "静态资源地址前缀",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "[";
+                  const suffix = "](https://admin.leoyiblog.cn/files/)";
+                  const placeholder = "名称";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
+            {
+              name: "menu2",
+              text: "提示",
+              action(editor: any) {
+                editor.insert(function (selected: any) {
+                  const prefix = "::: tip ";
+                  const suffix = "\n:::";
+                  const placeholder = "提示";
+                  const content = selected || placeholder;
+
+                  return {
+                    text: `${prefix}${content}${suffix}`,
+                    selected: content,
+                  };
+                });
+              },
+            },
+          ],
+        },
+      },
     };
   },
   computed: {
@@ -126,8 +172,52 @@ import { ElMessage } from "element-plus";
       // console.log("text:", text);
       // console.log("html:", html);
     },
+    // 暂存文章
+    async temp_submit() {
+      const res = await create_article({
+        userId: this.userId,
+        title: this.title,
+        description: this.description,
+        fieldId: this.field,
+        tags: this.tags,
+        content: this.text,
+        isVisiable: false,
+      });
+      // console.log("articleId:", res);
+      if (res) {
+        this.temp_article_id = res;
+        ElMessage.success(`文章暂存成功,文章id: ${res}`);
+      }
+    },
+    // 提交修改后的暂存文章
+    async edit_submit() {
+      // console.log(this.field);
+      const res = await edit_article({
+        id: this.id,
+        title: this.title,
+        description: this.description,
+        fieldId: this.fieldId,
+        tags: this.tags,
+        content: this.text,
+        isVisiable: this.isVisiable,
+      });
+      // // console.log(res);
+      if (res) {
+        ElMessage.success("文章提交成功");
+        this.$router.push({
+          name: "article_detail",
+          params: {
+            articleId: res,
+          },
+        });
+      }
+    },
     // 提交文章
     async submit() {
+      if (this.temp_article_id) {
+        await this.edit_submit();
+        return;
+      }
       const res = await create_article({
         userId: this.userId,
         title: this.title,
@@ -137,14 +227,15 @@ import { ElMessage } from "element-plus";
         content: this.text,
         isVisiable: this.isVisiable,
       });
-      // console.log("articleId:", res);
-      ElMessage.success("文章创建成功");
-      this.$router.push({
-        name: "article_detail",
-        params: {
-          articleId: res,
-        },
-      });
+      if (res) {
+        ElMessage.success("文章创建成功");
+        this.$router.push({
+          name: "article_detail",
+          params: {
+            articleId: res,
+          },
+        });
+      }
     },
     // 上传图片
     async handleUploadImage(event: any, insertImage: any, files: any) {
@@ -153,8 +244,8 @@ import { ElMessage } from "element-plus";
         insertImage({
           url: `https://admin.leoyiblog.cn${res}`,
           desc: res,
-          width: 'auto',
-          height: 'auto',
+          width: "auto",
+          height: "auto",
         });
       }
     },
