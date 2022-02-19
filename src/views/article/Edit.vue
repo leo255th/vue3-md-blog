@@ -228,7 +228,7 @@ import { ElMessage } from "element-plus";
       this.field = article.field;
       this.fieldId = article.fieldId + "";
       this.title = article.title;
-      this.description = article.title;
+      this.description = article.description;
       this.tags = article.tags;
       this.isVisiable = article.isVisiable;
     }

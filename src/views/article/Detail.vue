@@ -431,6 +431,7 @@ export default class ArticleDetail extends Vue {}
     padding-left: 0.6vw;
     transition: all 0.25s;
     min-width: 10vw;
+    max-width: 14vw;
     user-select: none;
     .title {
       width: 99%;
