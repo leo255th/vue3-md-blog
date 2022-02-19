@@ -402,8 +402,8 @@ export default class Home extends Vue {}
   min-height: 80vh;
   border-radius: 4px;
   .field-list {
-    min-width: 12vw;
-    max-width: 16vw;
+    min-width: 15vw;
+    // max-width: 16vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -469,7 +469,7 @@ export default class Home extends Vue {}
       .count {
         display: inline-block;
         position: absolute;
-        left: 66%;
+        left: 77%;
         top: 0em;
         text-align: center;
         min-width: 40px;
