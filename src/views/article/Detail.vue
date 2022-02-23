@@ -2,8 +2,11 @@
   <div class="out-container slide-in" v-if="article">
     <div class="left-side-container">
       <div class="meta-container shadow">
-        <div class="meta-title">文章信息
-          <span class="edit-btn" v-if="isLogin" @click="gotoEdit(article.id)">编辑</span>
+        <div class="meta-title">
+          文章信息
+          <span class="edit-btn" v-if="isLogin" @click="gotoEdit(article.id)"
+            >编辑</span
+          >
         </div>
         <div class="info-row">
           <div class="label">标题：</div>
@@ -21,13 +24,23 @@
         </div>
         <div class="info-row">
           <div class="label">分区：</div>
-          <div class="field" @click='gotoSearch("field",article.field)'>{{ article.field }}</div>
+          <div class="field" @click="gotoSearch('field', article.field)">
+            {{ article.field }}
+          </div>
         </div>
         <div class="info-row">
           <div class="label">标签：</div>
           <div class="tags">
-            <div class="tag" v-for="(tag, index) in article.tags" :key="index" @click='gotoSearch("tag",tag)'>
+            <div
+              class="tag"
+              v-for="(tag, index) in article.tags"
+              :key="index"
+              @click="gotoSearch('tag', tag)"
+            >
               {{ tag }}
+              <span class="comma" v-if="index != article.tags.length - 1"
+                >、</span
+              >
             </div>
           </div>
         </div>
@@ -92,7 +105,7 @@
         </div>
       </div>
       <div class="block-line"></div>
-      <div class="preview">
+      <div :class="`preview ${useToc ? 'toc-open' : 'toc-close '}`">
         <v-md-preview :text="article.content" ref="preview" />
       </div>
     </div>
@@ -149,7 +162,6 @@ import { mapState } from "vuex";
         return get_article_list;
       }
     },
-    
   },
   async created() {
     // console.log("loginstate:", this.isLogin);
@@ -158,7 +170,7 @@ import { mapState } from "vuex";
       this.article = await this.get_article({
         articleId: this.articleId,
       });
-    document.title = `${this.article.title} | Leoyi的个人博客`;
+      document.title = `${this.article.title} | Leoyi的个人博客`;
       this.article_list = (
         await this.get_list({
           userId: this.article.userId,
@@ -291,13 +303,13 @@ export default class ArticleDetail extends Vue {}
       line-height: 2em;
       height: 2em;
       margin-bottom: 0.3em;
-      .edit-btn{
+      .edit-btn {
         font-size: 0.6em;
         margin-left: 5%;
         font-weight: normal;
         color: #707070;
-        &:hover{
-          color:#ffa801;
+        &:hover {
+          color: #ffa801;
           cursor: pointer;
         }
       }
@@ -329,11 +341,14 @@ export default class ArticleDetail extends Vue {}
         flex-wrap: wrap;
         .tag {
           color: #707070;
-          margin-right: 0.5em;
+          margin-right: 0.2em;
           font-style: italic;
           &:hover {
             color: #ffa801;
             cursor: pointer;
+          }
+          .comma {
+            color: #707070;
           }
         }
       }
@@ -383,6 +398,7 @@ export default class ArticleDetail extends Vue {}
 }
 .md-container {
   width: 60%;
+  max-width: 60%;
   // height: 80vh;
   display: flex;
   flex-direction: row;

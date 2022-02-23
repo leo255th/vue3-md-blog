@@ -18,11 +18,19 @@
     </div>
     <div class="info-row">
       <div class="label">分区：</div>
-      <div class="field" @click.prevent='gotoSearch("field",article.field)'>{{ article.field }}</div>
+      <div class="field" @click.prevent="gotoSearch('field', article.field)">
+        {{ article.field }}
+      </div>
       <div class="label" style="margin-left: 1vw">标签：</div>
       <div class="tags">
-        <div class="tag" v-for="(tag, index) in article.tags" :key="index" @click.prevent='gotoSearch("tag",tag)'>
+        <div
+          class="tag"
+          v-for="(tag, index) in article.tags"
+          :key="index"
+          @click.prevent="gotoSearch('tag', tag)"
+        >
           {{ tag }}
+          <span class="comma" v-if="index != article.tags.length - 1">、</span>
         </div>
       </div>
     </div>
@@ -37,20 +45,15 @@ import { Options, Vue } from "vue-class-component";
     article: {},
   },
   methods: {
-    gotoSearch(
-      type:string,
-      data:any
-    ){
+    gotoSearch(type: string, data: any) {
       // console.log('点击标签')
-      this.$router.push(
-        {
-          name:'search',
-          query:{
-            [type]:data
-          }
-        }
-      )
-    }
+      this.$router.push({
+        name: "search",
+        query: {
+          [type]: data,
+        },
+      });
+    },
   },
 })
 export default class ArticleCard extends Vue {}
@@ -114,11 +117,14 @@ export default class ArticleCard extends Vue {}
       flex-wrap: wrap;
       .tag {
         color: #707070;
-        margin-right: 0.5em;
+        margin-right: 0.2em;
         font-style: italic;
         &:hover {
           color: #ffa801;
           cursor: pointer;
+        }
+        .comma {
+            color: #707070;
         }
       }
     }

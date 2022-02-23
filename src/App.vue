@@ -121,9 +121,9 @@ export default class App extends Vue {}
     color: #ffa801 !important;
   }
 }
-.el-button.el-button--text{
+.el-button.el-button--text {
   background-color: white !important;
- color: #333 !important;
+  color: #333 !important;
   border: none;
   &:hover {
     color: #ffa801 !important;
@@ -143,15 +143,26 @@ export default class App extends Vue {}
   background-color: #333 !important;
 }
 // 分页器颜色
-.el-pagination.is-background .el-pager li.number.active{
+.el-pagination.is-background .el-pager li.number.active {
   background-color: #333333 !important;
 }
 .el-pagination.is-background .el-pager li.number:hover {
-    color:#333333 !important;
+  color: #333333 !important;
 }
 .el-pagination.is-background .el-pager li.number.active:hover {
-    color:white !important;
+  color: white !important;
 }
 
-
+// md预览组件中的代码行最长长度
+// 超过长度开启横向滚动
+.toc-open {
+  .v-md-pre-wrapper {
+    max-width: 43vw !important;
+  }
+}
+.toc-close {
+  .v-md-pre-wrapper {
+    max-width: 53vw !important;
+  }
+}
 </style>

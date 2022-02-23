@@ -334,7 +334,7 @@ import { ElMessage } from "element-plus";
       if (res) {
         ElMessage.success("删除文章成功");
         // 更新分区列表
-         this.field_name_list = await get_all_field_list();
+        this.field_name_list = await get_all_field_list();
         // 更新文章列表
         const res = await get_all_article_list({
           userId: this.userId,
@@ -479,7 +479,7 @@ export default class Home extends Vue {}
       .edit-btn {
         display: none;
         position: absolute;
-        left: 66%;
+        left: 77%;
         top: 0em;
         text-align: center;
         min-width: 40px;
