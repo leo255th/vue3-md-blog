@@ -1,8 +1,13 @@
 <template>
   <div class="slide-in container">
     <div class="title">博主留言</div>
-    <div class="message-box">{{message}}</div>
-    <div class="title">最新文章</div>
+    <div class="message-box">{{ message }}</div>
+    <div class="title">
+      最新文章
+      <span class="count" v-if="article_list" @click="gotoSearch"
+        >{{ +article_list.total}}
+      </span>
+    </div>
     <div class="article-list" v-if="article_list">
       <article-card
         class="item"
@@ -26,7 +31,7 @@ import { get_user_message } from "@/api/user.api";
     return {
       article_list: null,
       urlPref: window.location.origin,
-      message:'',
+      message: "",
     };
   },
   async created() {
@@ -37,10 +42,18 @@ import { get_user_message } from "@/api/user.api";
       num: 4,
       offset: 0,
     });
-    this.message=await get_user_message({userId:1});
+    this.message = await get_user_message({ userId: 1 });
   },
   methods: {
     // ...mapActions("user", ["requestUserInfo"]),
+    gotoSearch() {
+      this.$router.push({
+        name: "search",
+        query: {
+          search_all: 1,
+        },
+      });
+    },
   },
 })
 export default class Home extends Vue {}
@@ -63,13 +76,24 @@ export default class Home extends Vue {}
     height: 2em;
     margin-bottom: 0.3em;
     padding-left: 1vw;
+    .count {
+      font-size: 0.6em;
+      margin-left: 1%;
+      font-weight: normal;
+      color: #707070;
+      transition: all 0.2s;
+      &:hover {
+        color: #ffa801;
+        cursor: pointer;
+      }
+    }
   }
-  .message-box{
+  .message-box {
     font-size: 1.1em;
     padding-left: 1vw;
-    margin-bottom:4vh;
+    margin-bottom: 4vh;
     color: #707070;
-    max-width:85%;
+    max-width: 85%;
   }
   .article-list {
     display: flex;

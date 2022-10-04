@@ -102,6 +102,9 @@ import ArticleCard from "@/components/ArticleCard.vue";
     // 获取分区列表和标签列表
     this.field_name_list = await this.request_field_list();
     this.tag_name_list = await get_tag_list();
+    if (this.urlQuery.search_all) {
+      this.searchWhenCreated = true;
+    }
     // 查看是否url里带有fields或者tags的参数
     if (this.urlQuery.field) {
       const index = this.field_name_list.findIndex((item: any) => {
