@@ -126,7 +126,7 @@ import { ElMessage } from "element-plus";
               action(editor: any) {
                 editor.insert(function (selected: any) {
                   const prefix = "[";
-                  const suffix = "](https://admin.leoyiblog.cn/files/)";
+                  const suffix = "](http://admin.leoyiblog.cn/files/)";
                   const placeholder = "名称";
                   const content = selected || placeholder;
 
@@ -264,7 +264,7 @@ import { ElMessage } from "element-plus";
       const res = await uploadImages(files[0]);
       if (res) {
         insertImage({
-          url: `https://admin.leoyiblog.cn${res}`,
+          url: `http://admin.leoyiblog.cn${res}`,
           desc: res,
           width: "auto",
           height: "auto",
