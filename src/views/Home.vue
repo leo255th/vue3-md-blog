@@ -5,7 +5,7 @@
     <div class="title">
       最新文章
       <span class="count" v-if="article_list" @click="gotoSearch"
-        >{{ +article_list.total}}
+        >共{{ +article_list.total}}篇
       </span>
     </div>
     <div class="article-list" v-if="article_list">
