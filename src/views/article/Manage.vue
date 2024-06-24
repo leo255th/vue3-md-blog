@@ -235,7 +235,7 @@ import { ElMessage } from "element-plus";
     if (this.field_name_list.length > 0) {
       await this.selectField(0);
     }
-    document.title = "文章管理 | Leoyi的个人博客";
+    document.title = "文章管理 | leoyi编程日志";
   },
   data() {
     return {

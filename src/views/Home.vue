@@ -35,7 +35,7 @@ import { get_user_message } from "@/api/user.api";
     };
   },
   async created() {
-    document.title = "Leoyi的个人博客";
+    document.title = "leoyi编程日志";
     // 获取最近的几篇文章
     this.article_list = await get_article_list({
       userId: 1,

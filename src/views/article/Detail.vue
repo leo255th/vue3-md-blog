@@ -170,7 +170,7 @@ import { mapState } from "vuex";
       this.article = await this.get_article({
         articleId: this.articleId,
       });
-      document.title = `${this.article.title} | Leoyi的个人博客`;
+      document.title = `${this.article.title} | leoyi编程日志`;
       this.article_list = (
         await this.get_list({
           userId: this.article.userId,

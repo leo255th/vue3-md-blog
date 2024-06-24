@@ -98,7 +98,7 @@ import ArticleCard from "@/components/ArticleCard.vue";
 @Options({
   components: { ArticleCard },
   async created() {
-    document.title = "文章搜索 | Leoyi的个人博客";
+    document.title = "文章搜索 | leoyi编程日志";
     // 获取分区列表和标签列表
     this.field_name_list = await this.request_field_list();
     this.tag_name_list = await get_tag_list();

@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <span>Leoyi-个人博客</span>
+    <span>leoyi编程日志</span>
     <span class="block">|</span>
     <span title="邮箱:  leoyi255@126.com">联系方式</span>
     <span class="block">|</span>
